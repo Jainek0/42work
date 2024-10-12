@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 18:41:18 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/11 19:12:10 by thcaquet         ###   ########.fr       */
+/*   Updated: 2024/10/12 13:30:21 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	dest = (unsigned char *) malloc(nmemb * size);
 	if (! dest)
 	{
-		free(dest);
 		return (NULL);
 	}
 	while (nmemb--)

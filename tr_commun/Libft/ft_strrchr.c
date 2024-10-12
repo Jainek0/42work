@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 13:25:51 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/11 15:32:12 by thcaquet         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:28:27 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,20 @@
 // tab[0] = index / tab[i] = trus or fals 
 char	*ft_strrchr(const char *s, int c)
 {
-	int		tab[2];
+	int		i;
+	int		l;
 	char	r;
-	char	*l;
 
-	tab[0] = 0;
-	tab[1] = 0;
 	r = (char) c;
-	l = (char *)s;
+	l = ft_strlen((char *)s);
+	i = 1;
 	if (r == 0)
-		return ((char *)(s + ft_strlen((char *)s)));
-	else
+		return ((char *)(s + l));
+	while (l >= i)
 	{
-		while (*(char *)(s + tab[0]))
-		{
-			if (*(char *)(s + tab[0]) == r)
-			{
-				l = (char *)(s + tab[0]);
-				tab[1] = 1;
-			}
-			tab[0]++;
-		}
+		if (*(char *)(s + l - i) == r)
+			return ((char *)(s + l - i));
+		i++;
 	}
-	if (tab[1])
-		return (l);
 	return (0);
 }

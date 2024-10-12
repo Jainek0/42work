@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 13:24:42 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/12 15:28:30 by thcaquet         ###   ########.fr       */
+/*   Created: 2024/10/12 12:21:25 by thcaquet          #+#    #+#             */
+/*   Updated: 2024/10/12 17:25:29 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	char	r;
+	size_t	i;
+	size_t	j;
+	size_t	l;
 
-	r = (char) c;
 	i = 0;
-	if (r == 0)
-		return ((char *)(s + ft_strlen((char *)s)));
-	while (*(char *)(s + i))
+	l = ft_strlen(s1);
+	while (s1[i++])
 	{
-		if (*(char *)(s + i) == r)
-			return ((char *)(s + i));
-		i++;
+		j = 0;
+		while (s1[i - 1] != set[j] && set[j])
+			j++;
+		if (!set[j])
+			break ;
 	}
-	return (0);
+	while (s1[--l])
+	{
+		j = 0;
+		while (s1[l] != set[j] && set[j])
+			j++;
+		if (!set[j])
+			break ;
+	}
+	return (ft_substr(s1, i - 1, (l + 1) - (i - 1)));
 }
