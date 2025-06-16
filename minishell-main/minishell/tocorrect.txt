@@ -1,0 +1,3 @@
+"<<" tokenisation des separateur entre guillemet qui pourraient etre interprete a tort en separateurs
+export contenant des isspace successifs differents quand double quote (necessite un split)
+passage du parsing en liste chainé
