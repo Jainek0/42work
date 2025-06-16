@@ -10,7 +10,8 @@ SRC			= 	main.c \
 				tmp.c		\
 				liberate_all.c\
 				utils.c \
-				set_data.c
+				set_data.c \
+				mini_red.c
 
 OBJ			= $(SRC:.c=.o)
 

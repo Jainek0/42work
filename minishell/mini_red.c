@@ -6,19 +6,14 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/05/02 18:12:58 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:49:05 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	red_truncate(t_data data, char *file)
+void	red_truncate(t_data *data, char *file)
 {
-	if (access(file, X_OK))
-	{
-		put_error(data, ERROR_FILE_PERM, 1);
-		return ;
-	}
 	data->fd.out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data->fd.out < 0)
 	{
@@ -30,9 +25,9 @@ void	red_truncate(t_data data, char *file)
 	data->error = 0;
 }
 
-void	red_append(t_data data, char *file)
+void	red_append(t_data *data, char *file)
 {
-	if (access(file, X_OK))
+	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
 		put_error(data, ERROR_FILE_PERM, 1);
 		return ;
@@ -48,14 +43,14 @@ void	red_append(t_data data, char *file)
 	data->error = 0;
 }
 
-void	red_read(t_data data, char *file)
+void	red_read(t_data *data, char *file)
 {
-	if (access(file, X_OK))
+	if (access(file, F_OK))
 	{
 		put_error(data, ERROR_FILE_PATH, 1);
 		return ;
 	}
-	else if (access(file, X_OK))
+	else if (access(file, R_OK))
 	{
 		put_error(data, ERROR_FILE_PERM, 1);
 		return ;
@@ -71,18 +66,18 @@ void	red_read(t_data data, char *file)
 	data->error = 0;
 }
 
-void	hook_heredoc(t_data data, char *end)
+void	hook_heredoc(t_data *data, char *end)
 {
 	char	*line;
-	int		i;
+	// int		i;
 
 	line = readline("> ");
 	while (ft_strncmp(line, end, ft_strlen(end) + 1) || !line)
 	{
 		while (ft_strrchr(line, '$'))
-			env_expand(data, &line[ft_strrchr(line, '$')]);
-		write(fd, line, strlen(line));
-		write(fd, "\n", 1);
+			// env_expand(data, &line[ft_strrchr(line, '$')]);
+		write(data->fd.out, line, strlen(line));
+		write(data->fd.out, "\n", 1);
 		free(line);
 		line = readline("> ");
 	}
@@ -96,7 +91,8 @@ void	red_heredoc(t_data *data, char *end)
 
 	i = 0;
 	file = 0;
-	while (!file || access(file, F_ok) != -1)
+	(void) end;
+	while (!file || access(file, F_OK) != -1)
 	{
 		if (file)
 			free(file);

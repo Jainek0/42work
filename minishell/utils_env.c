@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:45:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/16 15:57:20 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:20:53 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**env_w_search(t_data *data, char *re)
 	return (0);
 }
 
-char	*env_exanp(char *str)
+char	*env_expand(char *str)
 {
 	int	i;
 

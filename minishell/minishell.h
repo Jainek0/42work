@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/05/02 18:55:28 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:01:44 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ typedef struct	s_data
 
 void	mini_pwd(t_data *data);
 void	mini_cd(t_data *data, char **cmd);
-void	mini_echo(t_data data, char **cmd);
+void	mini_echo(t_data *data, char **cmd);
 void	mini_execve(t_data *data, char **cmd);
 
 char	*env_get_search(t_data *data, char *re);
 char	*env_dup_search(t_data *data, char *re);
 char	**env_w_search(t_data *data, char *re);
-char	*env_exanp(char *str);
+char	*env_expand(char *str);
 
 void    mini_liberate_all(t_data *data, char *msg, int err);
 void    mini_free_envlist(t_envlist *start);
@@ -96,4 +96,10 @@ void	free_tab(char **tab);
 void	set_envs(t_data *data, char **envp); //tmp
 void	mini_env(t_data *data);
 t_data	set_data(void);
+
+void	red_truncate(t_data *data, char *file);
+void	red_append(t_data *data, char *file);
+void	red_read(t_data *data, char *file);
+void	hook_heredoc(t_data *data, char *end);
+void	red_heredoc(t_data *data, char *end);
 #endif

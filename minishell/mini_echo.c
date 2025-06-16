@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:18:27 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/29 09:01:45 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:08:49 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ static void	echo_hook(char **cmd)
 		printf("\n");
 }
 
-void	mini_echo(t_data data, char **cmd)
+void	mini_echo(t_data *data, char **cmd)
 {
+	data->error = 0;
 	if (!cmd)
 	{
 		printf("\n");
 		return ;
 	}
 	echo_hook(cmd);
-	data.error = 0;
 }
