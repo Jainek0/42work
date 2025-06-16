@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/16 18:49:05 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:25:13 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	red_truncate(t_data *data, char *file)
 	if (data->fd.out < 0)
 	{
 		put_error(data, OPEN_FAILURE, 1);
+		data->error = 128;
 		return ;
 	}
 	dup2(data->fd.out, STDOUT_FILENO);
@@ -30,12 +31,14 @@ void	red_append(t_data *data, char *file)
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
 		put_error(data, ERROR_FILE_PERM, 1);
+		data->error = 126;
 		return ;
 	}
 	data->fd.out = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (data->fd.out < 0)
 	{
 		put_error(data, OPEN_FAILURE, 1);
+		data->error = 128;
 		return ;
 	}
 	dup2(data->fd.out, STDOUT_FILENO);
@@ -48,17 +51,20 @@ void	red_read(t_data *data, char *file)
 	if (access(file, F_OK))
 	{
 		put_error(data, ERROR_FILE_PATH, 1);
+		data->error = 126;
 		return ;
 	}
 	else if (access(file, R_OK))
 	{
 		put_error(data, ERROR_FILE_PERM, 1);
+		data->error = 127;
 		return ;
 	}
 	data->fd.in = open(file, O_RDONLY);
 	if (data->fd.in < 0)
 	{
 		put_error(data, OPEN_FAILURE, 1);
+		data->error = 128;
 		return ;
 	}
 	dup2(data->fd.in, STDIN_FILENO);
