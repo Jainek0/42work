@@ -1,2 +1,0 @@
-cc -Wall -Werror -Wextra "file.c" -l "library" pour inclure une librairie externe
-ex : cc -Wall -Werror -Wextra "file.c" -l readline pour inclure readline
