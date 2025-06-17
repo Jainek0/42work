@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/12 12:21:25 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/12 17:25:29 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/06/17 10:07:14 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/17 10:10:04 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strndup(char *str, int size)
 {
-	size_t	i;
-	size_t	j;
-	size_t	l;
+	char	*new;
+	int		i;
 
 	i = 0;
-	l = ft_strlen(s1);
-	while (s1[i++])
+	if (size <= 0)
+		return (0);
+	new = malloc(size + 1);
+	if (!new)
+		return (0);
+	while (str[i] && i < size)
 	{
-		j = 0;
-		while (s1[i - 1] != set[j] && set[j])
-			j++;
-		if (!set[j])
-			break ;
+		new[i] = str[i];
+		i++;
 	}
-	while (s1[--l])
-	{
-		j = 0;
-		while (s1[l] != set[j] && set[j])
-			j++;
-		if (!set[j])
-			break ;
-	}
-	return (ft_substr(s1, i - 1, (l + 1) - (i - 1)));
+	while (i <= size)
+		new[i++] = 0;
+	return (new);	
 }

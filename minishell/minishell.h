@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ../minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -83,7 +83,7 @@ void	mini_execve(t_data *data, char **cmd);
 char	*env_get_search(t_data *data, char *re);
 char	*env_dup_search(t_data *data, char *re);
 char	**env_w_search(t_data *data, char *re);
-char	*env_expand(char *str);
+char	*mini_expand(t_data *data, char *str);
 
 void    mini_liberate_all(t_data *data, char *msg, int err);
 void    mini_free_envlist(t_envlist *start);
@@ -102,4 +102,7 @@ void	red_append(t_data *data, char *file);
 void	red_read(t_data *data, char *file);
 void	hook_heredoc(t_data *data, char *end);
 void	red_heredoc(t_data *data, char *end);
+
+int		check_research(char *str, char *re);
+int		check_id_exp(char c);
 #endif

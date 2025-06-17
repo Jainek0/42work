@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   mini_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 13:24:42 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/12 15:28:30 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/04/21 16:10:28 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/17 09:38:43 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+void	mini_pwd(t_data *data)
 {
-	int		i;
-	char	r;
+	char	*path;
 
-	r = (char) c;
-	i = 0;
-	if (r == 0)
-		return ((char *)(s + ft_strlen((char *)s)));
-	while (*(char *)(s + i))
+	path = getcwd(0, 0);
+	if (*path)
 	{
-		if (*(char *)(s + i) == r)
-			return ((char *)(s + i));
-		i++;
+		printf("%s\n", path);
+		free(path);
+		data->error = 0;
 	}
-	return (0);
+	else
+	{
+		ft_putstr_fd(ERROR_GETWCD, 2);
+		data->error = 1;
+	}
 }

@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   short_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 20:58:59 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/11 16:46:13 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/06/17 09:19:57 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/17 09:38:11 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlcpy(char *dest, char *src, size_t size)
+int	check_id_exp(char c)
 {
-	size_t	i;
-	size_t	s;
+	return (ft_isalnum(c) || c == '_');
+}
 
-	i = 0;
-	s = 0;
-	while (src[s])
-		s++;
-	while (src[i] != '\0' && i + 1 < size)
+int	check_research(char *str, char *re)
+{
+	while (*str && *str == *re)
 	{
-		dest[i] = src[i];
-		i++;
+		str++;
+		re++;
 	}
-	if (size)
-		dest[i] = '\0';
-	return (s);
+	return (*str && !*re && *str == '=');
 }

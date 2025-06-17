@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   set_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 14:01:40 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/11 16:14:16 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/05/01 15:17:00 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/17 09:38:11 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" 
+#include "../minishell.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+t_data	set_data(void)
 {
-	size_t	i;
+	t_data data;
 
-	i = 0;
-	while (i < n)
-	{
-		if ((unsigned char) c == *(unsigned char *)(s + i))
-			return ((void *)(s + i));
-		i++;
-	}
-	return (0);
+	data.end = NULL;
+	data.start = NULL;
+	data.line = NULL;
+	data.error = 0;
+	data.pipe = 0;
+	data.std.in = dup(STDIN_FILENO);
+	data.std.out = dup(STDOUT_FILENO);
+	data.pid_fork = -2;
+	data.fd.in = -2;
+	data.fd.out = -2;
+	return (data);
 }

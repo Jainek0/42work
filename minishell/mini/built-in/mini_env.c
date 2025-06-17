@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   mini_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thcaquet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 19:05:46 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/07 19:10:27 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/17 09:38:40 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalnum(int c)
+#include "../../minishell.h"
+
+void	mini_env(t_data *data)
 {
-	if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		|| (c >= '0' && c <= '9'))
-		return (1);
-	return (0);
+	t_envlist	*env;
+
+	env = data->start;
+	while (env)
+	{
+		printf("%s\n", env->at);
+		env = env->next;
+	}
+	data->error = 0;
 }

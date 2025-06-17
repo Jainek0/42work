@@ -1,17 +1,25 @@
 NAME		= minishell
 
-SRC			= 	main.c \
-				mini_echo.c	\
-				mini_pwd.c	 \
-				mini_cd.c	  \
-				mini_execve.c \
-				mini_env.c		 \
-				utils_env.c\
-				tmp.c		\
-				liberate_all.c\
-				utils.c \
-				set_data.c \
-				mini_red.c
+SRC			= 	main.c	\
+				tmp.c	\
+				\
+				mini/built-in/mini_cd.c		\
+				mini/built-in/mini_echo.c	\
+				mini/built-in/mini_env.c	\
+				mini/built-in/mini_pwd.c	\
+				mini/built-in/mini_expand.c	\
+				\
+				utils/liberate_all.c	\
+				utils/short_check.c		\
+				utils/utils_env.c		\
+				utils/utils.c			\
+				\
+				mini/mini_execve.c	\
+				mini/mini_red.c		\
+				\
+				set/set_data.c	\
+				set/set_fork.c	\
+				\
 
 OBJ			= $(SRC:.c=.o)
 
