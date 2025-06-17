@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:07:14 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 10:10:04 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:12:57 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strndup(char *str, int size)
 	int		i;
 
 	i = 0;
-	if (size <= 0)
+	if (size < 0)
 		return (0);
 	new = malloc(size + 1);
 	if (!new)
@@ -30,5 +30,6 @@ char	*ft_strndup(char *str, int size)
 	}
 	while (i <= size)
 		new[i++] = 0;
+	new[size] = 0;
 	return (new);	
 }

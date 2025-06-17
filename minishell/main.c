@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 09:39:23 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:13:45 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int main(int ac, char **av, char **envp)
 	(void)envp;
 	(void)ac;
 	set_envs(&data, envp);
-	red_read(&data, "test");
+	red_heredoc(&data, "end");
+	// red_read(&data, "test");
 	// mini_echo(&data, av);
 	mini_execve(&data, &av[1]);
 	free_data(&data);

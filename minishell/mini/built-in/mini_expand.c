@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:23:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 11:14:18 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:15:17 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ char	*hook_expand(t_data *data, char *str, int *i)
 	int		j;
 	char	*new;
 	char	*search;
+	char	*tmp;
 
-	j = 0;
 	while (str[*i])
 	{
 		if (str[*i]== '$' && check_id_exp(str[*i + 1]))
 		{
+			j = 1;
 			while (str[*i + j + 1] && check_id_exp(str[*i + j + 1]))
 				++j;
-			new = ft_strndup(str, *i - 1);
-			search = ft_strndup(&str[*i], j);
-			new = ft_strjoin(new, env_get_search(data, search), 11);
+			new = ft_strndup(str, *i);
+			search = ft_strndup(&str[*i + 1], j);
+			tmp = env_get_search(data, search);
+			new = ft_strjoin(new, tmp, 1);
 			new = ft_strjoin(new, &str[*i + j], 1);
 			*i += j;
 		}

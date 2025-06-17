@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 12:00:54 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/24 19:20:33 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:05:16 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 char	*free_this(char *s1, char *s2, int free_nu)
 {
 	if (s1 && (free_nu == 10 || free_nu == 11))
-		free(s1);
+		if (s1)
+			free(s1);
 	if (s2 && (free_nu == 1 || free_nu == 11))
-		free(s2);
+		if (s2)
+			free(s2);
 	return (0);
 }
 

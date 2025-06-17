@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 11:22:47 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:41:17 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,17 @@ void	red_read(t_data *data, char *file)
 void	hook_heredoc(t_data *data, char *end)
 {
 	char	*line;
-	char	*tmp;
 
 	while (1)
 	{
 		line = readline("> ");
-		tmp = 0;
+		if (!line)
+			break;
+		if (*line)
+			add_history(line);
 		if (!ft_strcmp(line, end))
 			break ;
-		tmp = ft_strrchr(line, '$');
-		while (tmp)
-		{
-			mini_expand(data, tmp);
-			tmp = ft_strrchr(tmp, '$');
-		}
+		mini_expand(data, line);
 		write(data->fd.out, line, strlen(line));
 		write(data->fd.out, "\n", 1);
 		free(line);
@@ -110,9 +107,11 @@ void	red_heredoc(t_data *data, char *end)
 			free(file);
 		file = ft_strjoin("heredoc_tmp_", ft_itoa(i++), 1);
 	}
-	data->fd.in = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	dup2(data->fd.in, STDIN_FILENO);
-	close(data->fd.in);
+	data->fd.out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	hook_heredoc(data, end);
+	close(data->fd.out);
+	data->fd.in = open(file, O_RDONLY);
+	dup2(data->fd.in, STDIN_FILENO);
+	unlink(file);
 	free(file);
 }

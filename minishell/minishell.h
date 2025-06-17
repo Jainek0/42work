@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include "libft/src/libft.h"
 
 #  define ERROR_ARGC "ERROR : NO ARGUMET VALID\n"
