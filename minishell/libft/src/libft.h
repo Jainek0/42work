@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:01:59 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 11:20:17 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:25:01 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_strndup(char *str, int size);
+int     ft_intlen(int nb);
 
 int		ft_putnbrf_fd(int n, int fd);
 int		ft_putcharf_fd(char c, int fd);

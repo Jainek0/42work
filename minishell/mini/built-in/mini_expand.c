@@ -6,77 +6,82 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:23:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 16:15:17 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:17:38 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*other_expand(t_data *data, char *str, int *i)
+char	*other_expand(t_data *data, char *old, int *i)
 {
 	char	*new;
 
 	new = 0;
-	if (strncmp(&str[*i], "$$", 2) == 0)
+	new = ft_strndup(old, *i);
+	if (strncmp(&old[*i], "$$", 2) == 0)
 	{
-		new = ft_strndup(str, *i - 1);
 		new = ft_strjoin(new, ft_itoa(getpid()), 11);
-		new = ft_strjoin(new, &str[*i + 2], 1);
-		*i += 2;
+		new = ft_strjoin(new, &old[*i + 2], 10);
+		*i += ft_intlen(getpid()) + 1;
 	}
-	else if (strncmp(&str[*i], "$?", 2) == 0)
+	else if (strncmp(&old[*i], "$?", 2) == 0)
 	{
-		new = ft_strndup(str, *i - 1);
 		new = ft_strjoin(new, ft_itoa(data->error), 11);
-		new = ft_strjoin(new, &str[*i + 2], 1);
-		*i += 2;
+		new = ft_strjoin(new, &old[*i + 2], 10);
+		*i += ft_intlen(data->error) + 1;
 	}
 	else
-		new = str;
+	{
+		new = ft_strjoin(new, &old[*i], 10);
+		++*i;
+	}
+	free(old);
 	return (new);
 }
 
-char	*hook_expand(t_data *data, char *str, int *i)
+char	*hook_expand(t_data *data, char *old, int *i)
 {
 	int		j;
+	int		k;
 	char	*new;
 	char	*search;
 	char	*tmp;
 
-	while (str[*i])
+	j = 1;
+	k = 0;
+	while (old[*i + j + 1] && check_id_exp(old[*i + j + 1]))
+		++j;
+	new = ft_strndup(old, *i);
+	search = ft_strndup(&old[*i + 1], j);
+	tmp = env_get_search(data, search);
+	free(search);
+	if (tmp)
 	{
-		if (str[*i]== '$' && check_id_exp(str[*i + 1]))
-		{
-			j = 1;
-			while (str[*i + j + 1] && check_id_exp(str[*i + j + 1]))
-				++j;
-			new = ft_strndup(str, *i);
-			search = ft_strndup(&str[*i + 1], j);
-			tmp = env_get_search(data, search);
-			new = ft_strjoin(new, tmp, 1);
-			new = ft_strjoin(new, &str[*i + j], 1);
-			*i += j;
-		}
-		else
-			new = other_expand(data, str, i);
-		++*i;
+		k = strlen(tmp);
+		new = ft_strjoin(new, tmp, 10);
 	}
-	free(str);
+	new = ft_strjoin(new, &old[*i + j + 1], 10);
+	free (old);
+	*i += k;
 	return (new);
 }
 
 char	*mini_expand(t_data *data, char *str)
 {
 	int		i;
-	char	*new;
+	char	*w_str;
 
 	i = 0;
-	new = str;
-	while (str[i])
+	w_str = ft_strdup(str);
+	free(str);
+	while (w_str[i])
 	{
-		if (str[i] == '$')
-			new = hook_expand(data, str, &i);
-		++i;
+		if (w_str[i] == '$' && check_id_exp(w_str[i + 1]))
+			w_str = hook_expand(data, w_str, &i);
+		else if (w_str[i] == '$')
+			w_str = other_expand(data, w_str, &i);
+		else
+			++i;
 	}
-	return (new);
+	return (w_str);
 }

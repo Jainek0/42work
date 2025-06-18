@@ -37,6 +37,7 @@ SRC =		src/ft_isalpha.c \
 			src/ft_tab2len.c \
 			src/ft_n_realloc.c \
 			src/ft_strndup.c \
+			src/ft_intlen.c \
 							\
 			ft_printf/ft_printf.c \
 			ft_printf/ft_put_fd.c \

@@ -59,8 +59,9 @@ typedef struct s_envlist
 
 typedef struct s_fd
 {
-	int	in;
-	int	out;
+	int		in;
+	int		out;
+	char	*file;
 }	t_fd;
 
 typedef struct	s_data
