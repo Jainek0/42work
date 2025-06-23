@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 15:13:45 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:14:45 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,17 @@ int main(int ac, char **av, char **envp)
 	(void)envp;
 	(void)ac;
 	set_envs(&data, envp);
-	red_heredoc(&data, "end");
+	red_truncate(&data, "avant");
+	mini_env(&data);
+	last_cmd(&data, "test");
+	last_cmd(&data, "test de folie");
+	red_truncate(&data, "apres");
+	env_unset(&data, "NIX_PROFILES");
+	mini_env(&data);
+	// red_heredoc(&data, "end");
 	// red_read(&data, "test");
 	// mini_echo(&data, av);
-	mini_execve(&data, &av[1]);
+	// mini_execve(&data, &av[1]);
 	free_data(&data);
 	end_main(&data);
 	return (0);

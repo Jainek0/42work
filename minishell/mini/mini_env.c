@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:04:32 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/23 14:13:58 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:22:17 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,14 @@ void	mini_env(t_data *data)
 	data->error = 0;
 }
 
-void    mini_unset(t_data *data, char *str)
-{
-	t_envlist   *node;
-	t_envlist   *lst;
-
-	data->error = 0;
-	lst = data->start;
-	node = env_search(data, str);
-	if (!node)
-		return ;
-	while (lst->next != node)
-		lst = lst->next;
-	lst->next = node->next;
-	free(node->at);
-	free(node);
-}
-
-void    last_cmd(t_data *data, char *cmd)
+void	last_cmd(t_data *data, char *cmd)
 {
 	t_envlist   *node;
 	char		*old;
+	char		**w_at;
 
 	data->error = 0;
-	node = env_search(data, cmd);
+	node = env_search(data, "_");
 	old = ft_strjoin("_=", cmd);
 	if (!old)
 		mini_liberate_all(data, ERROR_MALLOC, 1);
@@ -72,10 +56,15 @@ void    last_cmd(t_data *data, char *cmd)
 		lst_add_back(data->start, old);
 	else if (node->next)
 	{
-		mini_unset(data, "_");
+		env_unset(data, "_");
 		if (!old)
 			mini_liberate_all(data, ERROR_MALLOC, 1);
 		lst_add_back(data->start, old);
+	}
+	else
+	{
+		w_at = env_w_search(data, "_");
+		*w_at = old;
 	}
 }
 

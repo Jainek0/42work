@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:45:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 19:58:27 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:22:58 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,31 @@ char	**env_w_search(t_data *data, char *re)
 	return (0);
 }
 
+void	env_unset(t_data *data, char *str)
+{
+	t_envlist   *node;
+	t_envlist   *lst;
+
+	data->error = 0;
+	lst = data->start;
+	if (!lst)
+		return ;
+	node = env_search(data, str);
+	if (!node)
+		return ;
+	while (lst->next != node)
+		lst = lst->next;
+	lst->next = node->next;
+	free(node->at);
+	free(node);
+}
+
 t_envlist	*env_search(t_data *data, char *search)
 {
 	t_envlist	*lst;
 
 	lst = data->start;
-	while (lst && ft_strcmp(lst->at, search) == 0)
+	while (lst && !check_research(lst->at, search))
 		lst = lst->next;
 	return (lst);
 }

@@ -49,8 +49,6 @@
 #  define FORK_FAILURE "ERROR : FORK FAILURE\n"
 #  define OPEN_FAILURE "ERROR : OPEN FAILURE\n"
 
-
-
 typedef struct s_envlist
 {
 	char				*at;
@@ -99,6 +97,8 @@ void		free_data(t_data *data);
 void		free_tab(char **tab);
 
 void		set_envs(t_data *data, char **envp); //tmp
+void		last_cmd(t_data *data, char *cmd);
+void		env_unset(t_data *data, char *str);
 void		mini_env(t_data *data);
 t_data		set_data(void);
 

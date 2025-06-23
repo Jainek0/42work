@@ -16,12 +16,12 @@ SRC			= 	main.c	\
 				\
 				mini/mini_execve.c	\
 				mini/mini_red.c		\
-				mini/mini_env.c	\
+				mini/mini_env.c		\
 				\
 				set/set_data.c	\
 				set/set_fork.c	\
 				\
-
+				
 OBJ			= $(SRC:.c=.o)
 
 LIB_PATH	= libft
