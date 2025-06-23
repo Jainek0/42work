@@ -5,7 +5,7 @@ SRC			= 	main.c	\
 				\
 				mini/built-in/mini_cd.c		\
 				mini/built-in/mini_echo.c	\
-				mini/built-in/mini_env.c	\
+				mini/built-in/mini_export.c	\
 				mini/built-in/mini_pwd.c	\
 				mini/built-in/mini_expand.c	\
 				\
@@ -16,6 +16,7 @@ SRC			= 	main.c	\
 				\
 				mini/mini_execve.c	\
 				mini/mini_red.c		\
+				mini/mini_env.c	\
 				\
 				set/set_data.c	\
 				set/set_fork.c	\

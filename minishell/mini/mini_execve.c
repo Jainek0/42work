@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:57:44 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 09:38:49 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:35:32 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*check_path(char **all_path, char *cmd)
 {
 	char	*path;
 
-	path = ft_strjoin(*all_path, cmd, 0);
+	path = ft_clean_strjoin(*all_path, cmd, 0);
 	while (*all_path && access(path, F_OK) == -1)
 	{
 		free(path);
-		path = ft_strjoin(*all_path++, cmd, 0);
+		path = ft_clean_strjoin(*all_path++, cmd, 0);
 	}
 	return (path);
 }

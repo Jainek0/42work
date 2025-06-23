@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_clan_strjoin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 12:00:54 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 21:33:48 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:32:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*free_this(char *s1, char *s2, int free_nu)
+{
+	if (s1 && (free_nu == 10 || free_nu == 11))
+		if (s1)
+			free(s1);
+	if (s2 && (free_nu == 1 || free_nu == 11))
+		if (s2)
+			free(s2);
+	return (0);
+}
+
+char	*ft_clean_strjoin(char *s1, char *s2, int free_nu)
 {
 	int		ls1;
 	int		ls2;
@@ -28,12 +39,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = -1;
 	str = (char *) malloc(ls1 + ls2 + 1);
 	if (!str)
-		return (0);
+		return (free_this(s1, s2, free_nu));
 	while (++i < ls1)
 		str[i] = s1[i];
 	i--;
 	while ((++i - ls1) < ls2)
 		str[i] = s2[i - ls1];
 	str[i] = 0;
+	free_this(s1, s2, free_nu);
 	return (str);
 }

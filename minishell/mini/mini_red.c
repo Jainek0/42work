@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/18 11:20:05 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/19 21:35:32 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	hook_heredoc(t_data *data, char *end)
 			free(line);
 			break ;
 		}
-		add_history(line);
 		l_expand = mini_expand(data, line);
 		write(data->fd.out, l_expand, strlen(l_expand));
 		write(data->fd.out, "\n", 1);
@@ -106,7 +105,7 @@ void	red_heredoc(t_data *data, char *end)
 	{
 		if (data->fd.file)
 			free(data->fd.file);
-		data->fd.file = ft_strjoin("heredoc_tmp_", ft_itoa(i++), 1);
+		data->fd.file = ft_clean_strjoin("heredoc_tmp_", ft_itoa(i++), 1);
 		if (i == -2147483648 || !data->fd.file)
 		{
 			// error

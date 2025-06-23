@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:01:59 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/18 14:25:01 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:50:18 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_n_realloc(char *str, int len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char *s1, char *s2, int free_nu);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	**ft_split_r(char const *str, char c, char r);
@@ -73,5 +73,7 @@ int		gnl_strchr(char *str, char chr);
 char	*gnl_strjoin(char *s1, char *s2);
 void	gnl_rewrite(char *old, char *scrap, int j);
 char	*gnl_dup(char *str);
+
+char	*ft_clean_strjoin(char *s1, char *s2, int free_nu);
 
 #endif

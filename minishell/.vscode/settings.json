@@ -16,6 +16,7 @@
 		"initializer_list": "c",
 		"text_encoding": "c",
 		"wait.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"algorithm": "c"
 	}
 }

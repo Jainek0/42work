@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   mini_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 18:59:44 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 20:00:40 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/23 13:37:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int c)
+#include "../../minishell.h"
+
+void    mini_export(t_data *data, char *cmd)
 {
-	return (c >= '0' && c <= '9');
+
+	(void) data;
+	(void) cmd;
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:04:05 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 09:39:28 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:09:52 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,21 @@ t_envlist	*lst_add_front(t_envlist *env, char *content)
 	return (new);
 }
 
-void	set_envs(t_data *data, char **envp)
+void	lst_add_back(t_envlist *env, char *content)
 {
-	int			i;
-
-	i = -1;
-	if (!envp)
+	t_envlist	*new;
+	t_envlist	*old;
+	
+	new = malloc(sizeof(t_envlist));
+	if (!new)
 		return ;
-	data->start = 0;
-	while (envp[++i])
-		data->start = lst_add_front(data->start, envp[i]);
+	new->at = ft_strdup((const char *) content);
+	if (!new->at)
+		return ;
+	old = env;
+	while (old->next)
+		old = old->next;
+	old->next = new;
+	new->next = 0;
 }
+

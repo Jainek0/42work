@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:22:50 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/18 14:24:40 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:27:20 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int ft_intlen(int nb)
     int i;
 
     i = 0;
+    if (nb == 0)
+        return (1);
     while (nb != 0)
     {
         nb = nb / 10;

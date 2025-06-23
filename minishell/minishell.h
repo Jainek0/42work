@@ -77,34 +77,37 @@ typedef struct	s_data
 	pid_t		pid_fork;
 }	t_data;
 
-void	mini_pwd(t_data *data);
-void	mini_cd(t_data *data, char **cmd);
-void	mini_echo(t_data *data, char **cmd);
-void	mini_execve(t_data *data, char **cmd);
+void		mini_pwd(t_data *data);
+void		mini_cd(t_data *data, char **cmd);
+void		mini_echo(t_data *data, char **cmd);
+void		mini_execve(t_data *data, char **cmd);
+char		*mini_expand(t_data *data, char *str);
 
-char	*env_get_search(t_data *data, char *re);
-char	*env_dup_search(t_data *data, char *re);
-char	**env_w_search(t_data *data, char *re);
-char	*mini_expand(t_data *data, char *str);
+t_envlist	*env_search(t_data *data, char *search);
+t_envlist	*lst_add_front(t_envlist *env, char *content);
+void		lst_add_back(t_envlist *env, char *content);
+char		*env_get_search(t_data *data, char *re);
+char		*env_dup_search(t_data *data, char *re);
+char		**env_w_search(t_data *data, char *re);
 
-void    mini_liberate_all(t_data *data, char *msg, int err);
-void    mini_free_envlist(t_envlist *start);
-void	put_error(t_data *data, char *msg, int error);
+void    	mini_liberate_all(t_data *data, char *msg, int err);
+void    	mini_free_envlist(t_envlist *start);
+void		put_error(t_data *data, char *msg, int error);
 
-char	**lst_to_tab(t_data *data);
-void	free_data(t_data *data);
-void	free_tab(char **tab);
+char		**lst_to_tab(t_data *data);
+void		free_data(t_data *data);
+void		free_tab(char **tab);
 
-void	set_envs(t_data *data, char **envp); //tmp
-void	mini_env(t_data *data);
-t_data	set_data(void);
+void		set_envs(t_data *data, char **envp); //tmp
+void		mini_env(t_data *data);
+t_data		set_data(void);
 
-void	red_truncate(t_data *data, char *file);
-void	red_append(t_data *data, char *file);
-void	red_read(t_data *data, char *file);
-void	hook_heredoc(t_data *data, char *end);
-void	red_heredoc(t_data *data, char *end);
+void		red_truncate(t_data *data, char *file);
+void		red_append(t_data *data, char *file);
+void		red_read(t_data *data, char *file);
+void		hook_heredoc(t_data *data, char *end);
+void		red_heredoc(t_data *data, char *end);
 
-int		check_research(char *str, char *re);
-int		check_id_exp(char c);
+int			check_research(char *str, char *re);
+int			check_id_exp(char c);
 #endif
