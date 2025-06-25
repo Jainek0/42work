@@ -80,13 +80,17 @@ void		mini_cd(t_data *data, char **cmd);
 void		mini_echo(t_data *data, char **cmd);
 void		mini_execve(t_data *data, char **cmd);
 char		*mini_expand(t_data *data, char *str);
+void		mini_export(t_data *data, char **cmd);
 
-t_envlist	*env_search(t_data *data, char *search);
 t_envlist	*lst_add_front(t_envlist *env, char *content);
 void		lst_add_back(t_envlist *env, char *content);
+void		lst_sort_str_tab(t_envlist **tab, int size);
+
+t_envlist	*env_search(t_data *data, char *search);
 char		*env_get_search(t_data *data, char *re);
 char		*env_dup_search(t_data *data, char *re);
 char		**env_w_search(t_data *data, char *re);
+int			env_comp(char *str1, char *str2);
 
 void    	mini_liberate_all(t_data *data, char *msg, int err);
 void    	mini_free_envlist(t_envlist *start);
@@ -110,4 +114,6 @@ void		red_heredoc(t_data *data, char *end);
 
 int			check_research(char *str, char *re);
 int			check_id_exp(char c);
+int			check_print_env(char *str);
+int			check_nam_export(char *str);
 #endif

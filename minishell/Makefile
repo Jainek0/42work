@@ -1,7 +1,6 @@
 NAME		= minishell
 
 SRC			= 	main.c	\
-				tmp.c	\
 				\
 				mini/built-in/mini_cd.c		\
 				mini/built-in/mini_echo.c	\
@@ -13,6 +12,7 @@ SRC			= 	main.c	\
 				utils/short_check.c		\
 				utils/utils_env.c		\
 				utils/utils.c			\
+				utils/lst.c	\
 				\
 				mini/mini_execve.c	\
 				mini/mini_red.c		\

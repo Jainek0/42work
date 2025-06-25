@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/23 16:14:45 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:21:21 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,19 @@ void	end_main(t_data *data)
 int main(int ac, char **av, char **envp)
 {
 	t_data	data;
-	// char *test[] = {"cat", NULL};
+	//char *test[] = {"cat", "test=", "truc=", "a=1", NULL};
 
 	data = set_data();
 	(void)av;
 	(void)envp;
 	(void)ac;
 	set_envs(&data, envp);
-	red_truncate(&data, "avant");
-	mini_env(&data);
+	mini_export(&data, av + 1);
 	last_cmd(&data, "test");
-	last_cmd(&data, "test de folie");
-	red_truncate(&data, "apres");
-	env_unset(&data, "NIX_PROFILES");
+	red_truncate(&data, "test");
 	mini_env(&data);
+	printf("\n================================\n\n");
+	mini_export(&data, NULL);
 	// red_heredoc(&data, "end");
 	// red_read(&data, "test");
 	// mini_echo(&data, av);
