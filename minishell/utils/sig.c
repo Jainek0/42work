@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_data.c                                         :+:      :+:    :+:   */
+/*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 15:17:00 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/25 17:35:57 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/06/30 09:30:29 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/06/30 16:11:58 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_data	set_data(void)
+int		get_set_global(int nb)
 {
-	t_data data;
+	int static status = 0;
+}
 
-	data.start = NULL;
-	data.line = NULL;
-	data.error = 0;
-	data.pipe = 0;
-	data.std.in = dup(STDIN_FILENO);
-	data.std.out = dup(STDOUT_FILENO);
-	data.pid_fork = -2;
-	data.fd.in = -2;
-	data.fd.out = -2;
-	return (data);
+void	sa_sig(int sig)
+{
+	if (sig == SIGINT)
+		printf("end ?\n");
+	ioctl(1, TIOCSTI, "\n");
+}
+
+void	set_sig()
+{
+	signal(SIGINT, &sa_sig);
+	signal(SIGQUIT, SIG_IGN);
 }

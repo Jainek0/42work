@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:57:44 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 21:35:32 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:58:28 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,17 @@ void	exec_fork(t_data *data, char **all_path, char **cmd)
 void	mini_execve(t_data *data, char **cmd)
 {
 	char	**all_path;
-	pid_t	pid;
 	int		status;
 
 	(void) data;
+	if (data->pid_fork == 0)
+		set_fork(data);
 	all_path = ft_split_r(env_get_search(data, "PATH"), ':', '/');
-	pid = fork();
-	if (pid == -1)
-	{
-		free_tab(all_path);
-		mini_liberate_all(data, FORK_FAILURE, 1);
-	}
-	else if (pid == 0)
+	if (data->pid_fork == 0)
 		exec_fork(data, all_path, cmd);
 	else
 	{
 		free_tab(all_path);
-		waitpid(pid, &status, 0);
+		waitpid(data->pid_fork, &status, 0);
 	}
 }

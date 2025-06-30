@@ -19,10 +19,12 @@
 # include <string.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/src/libft.h"
+
 
 #  define ERROR_ARGC "ERROR : NO ARGUMET VALID\n"
 #  define ERROR_MALLOC "ERROR : MALLOC FAILL\n"
@@ -51,21 +53,28 @@
 
 typedef struct s_envlist
 {
-	char				*at;
 	struct s_envlist	*next;
+	char				*at;
 }	t_envlist;
 
 typedef struct s_fd
 {
-	int		in;
-	int		out;
 	char	*file;
+	int		out;
+	int		in;
 }	t_fd;
+
+typedef struct s_token
+{
+	struct s_token	*next;
+	char			*str;
+	int				type;
+}	t_token;
 
 typedef struct	s_data
 {
 	t_envlist	*start;
-	t_envlist	*end;
+	t_token		*first;
 	t_fd		std;
 	t_fd		fd;
 	char		*line;
@@ -73,6 +82,8 @@ typedef struct	s_data
 	int			error;
 	int			pipe;
 	pid_t		pid_fork;
+	pid_t		*tab_pid_fork;
+	// char		*test[3];		//test
 }	t_data;
 
 void		mini_pwd(t_data *data);
@@ -81,6 +92,7 @@ void		mini_echo(t_data *data, char **cmd);
 void		mini_execve(t_data *data, char **cmd);
 char		*mini_expand(t_data *data, char *str);
 void		mini_export(t_data *data, char **cmd);
+void		mini_pipe(t_data *data);
 
 t_envlist	*lst_add_front(t_envlist *env, char *content);
 void		lst_add_back(t_envlist *env, char *content);
@@ -94,6 +106,7 @@ int			env_comp(char *str1, char *str2);
 
 void    	mini_liberate_all(t_data *data, char *msg, int err);
 void    	mini_free_envlist(t_envlist *start);
+void		mini_free_toklist(t_token *start);
 void		put_error(t_data *data, char *msg, int error);
 
 char		**lst_to_tab(t_data *data);
@@ -104,7 +117,10 @@ void		set_envs(t_data *data, char **envp); //tmp
 void		last_cmd(t_data *data, char *cmd);
 void		env_unset(t_data *data, char *str);
 void		mini_env(t_data *data);
+
 t_data		set_data(void);
+pid_t		set_fork(t_data *data);
+void		set_sig();
 
 void		red_truncate(t_data *data, char *file);
 void		red_append(t_data *data, char *file);
@@ -116,4 +132,6 @@ int			check_research(char *str, char *re);
 int			check_id_exp(char c);
 int			check_print_env(char *str);
 int			check_nam_export(char *str);
+
+void		print_tokens(t_token *lst); // testtttt
 #endif

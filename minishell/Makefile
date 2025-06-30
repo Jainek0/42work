@@ -8,15 +8,17 @@ SRC			= 	main.c	\
 				mini/built-in/mini_pwd.c	\
 				mini/built-in/mini_expand.c	\
 				\
-				utils/liberate_all.c	\
-				utils/short_check.c		\
-				utils/utils_env.c		\
-				utils/utils.c			\
-				utils/lst.c	\
+				mini/mini_execve.c		\
+				mini/mini_red.c			\
+				mini/mini_env.c			\
+				mini/mini_pipe.c		\
 				\
-				mini/mini_execve.c	\
-				mini/mini_red.c		\
-				mini/mini_env.c		\
+				utils/liberate_all.c\
+				utils/short_check.c	\
+				utils/utils_env.c	\
+				utils/utils.c		\
+				utils/lst.c			\
+				utils/sig.c			\
 				\
 				set/set_data.c	\
 				set/set_fork.c	\
