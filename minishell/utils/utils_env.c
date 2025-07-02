@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:45:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/23 19:59:47 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:47:57 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	*env_get_search(t_data *data, char *re)
 	node = data->start;
 	if (!node)
 		return (0);
-	while (node && !check_research(node->at, re))
+	while (node && !check_research(node->str, re))
 		node = node->next;
 	if (node)
 	{
-		str = node->at;
+		str = node->str;
 		while (*str != '=' && str)
 			++str;
 		return (++str);
@@ -41,11 +41,11 @@ char	*env_dup_search(t_data *data, char *re)
 	node = data->start;
 	if (!node)
 		return (0);
-	while (node && !check_research(node->at, re))
+	while (node && !check_research(node->str, re))
 		node = node->next;
 	if (node)
 	{
-		str = node->at;
+		str = node->str;
 		while (*str != '=' && str)
 			str++;
 		new = ft_strdup(++str);
@@ -63,20 +63,20 @@ char	**env_w_search(t_data *data, char *re)
 	node = data->start;
 	if (!node)
 		return (0);
-	while (node && !check_research(node->at, re))
+	while (node && !check_research(node->str, re))
 		node = node->next;
 	if (node)
 	{
-		free(node->at);
-		return (&(node->at));
+		free(node->str);
+		return (&(node->str));
 	}
 	return (0);
 }
 
 void	env_unset(t_data *data, char *str)
 {
-	t_envlist   *node;
-	t_envlist   *lst;
+	t_envlist	*node;
+	t_envlist	*lst;
 
 	data->error = 0;
 	lst = data->start;
@@ -88,7 +88,7 @@ void	env_unset(t_data *data, char *str)
 	while (lst->next != node)
 		lst = lst->next;
 	lst->next = node->next;
-	free(node->at);
+	free(node->str);
 	free(node);
 }
 
@@ -97,7 +97,7 @@ t_envlist	*env_search(t_data *data, char *search)
 	t_envlist	*lst;
 
 	lst = data->start;
-	while (lst && !check_research(lst->at, search))
+	while (lst && !check_research(lst->str, search))
 		lst = lst->next;
 	return (lst);
 }

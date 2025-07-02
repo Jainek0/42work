@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:07:14 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 16:12:57 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:39:12 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ char	*ft_strndup(char *str, int size)
 	while (i <= size)
 		new[i++] = 0;
 	new[size] = 0;
-	return (new);	
+	return (new);
 }

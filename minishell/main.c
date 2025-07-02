@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/30 15:27:31 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:02:53 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	end_main(t_data *data)
 		close(data->std.in);
 	if (data->std.out >= 0)
 		close(data->std.out);
+	free_data(data);
 }
 
 t_token *new_token(const char *str, int type)
@@ -66,6 +67,7 @@ void print_tokens(t_token *lst)
 int main(int ac, char **av, char **envp)
 {
 	t_data	data;
+	char	*test[] = {"cd", "test", "0", 0};
 	
 	data = set_data();
 	// data.test[0] = "sleep";
@@ -74,18 +76,15 @@ int main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	(void)ac;
-	set_sig();
+	sig_set();
 	set_envs(&data, envp);
 
-	char *args[] = {"sleep", "|", "sleep", "|", "sleep", "|", "sleep"};
-	data.first = create_token_list(args, 7);
-	printf("old : \n\n");
-	print_tokens(data.first);
-	data.pipe = 3;
-	mini_pipe(&data);
-	printf("main : \n\n");
-	print_tokens(data.first);
-	free_data(&data);
+	printf("_ = %s\n", env_get_search(&data, "_"));
+	mini_echo(&data, test);
+	printf("_ = %s\n", env_get_search(&data, "_"));
+
+	// char *args[] = {"sleep", "|", "sleep", "|", "sleep", "|", "sleep"};
+	// data.first = create_token_list(args, 7);
 	end_main(&data);
 	return (0);
 }

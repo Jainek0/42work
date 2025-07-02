@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ../minishell.h                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/16 17:01:44 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:25:01 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,34 @@
 # include <readline/history.h>
 # include "libft/src/libft.h"
 
+# define ERROR_ARGC "ERROR : NO ARGUMET VALID\n"
+# define ERROR_MALLOC "ERROR : MALLOC FAILL\n"
+# define ERROR_HEREDOC "ERROR : HEREDOC FAILL\n"
+# define ERROR_GETWCD "ERROR : GETWCD\n"
+# define ERROR_GETWCD "ERROR : GETWCD\n"
 
-#  define ERROR_ARGC "ERROR : NO ARGUMET VALID\n"
-#  define ERROR_MALLOC "ERROR : MALLOC FAILL\n"
-#  define ERROR_GETWCD "ERROR : GETWCD\n"
-#  define ERROR_GETWCD "ERROR : GETWCD\n"
+# define ERROR_EXECVE "ERROR : EXECVE\n"
+# define ERROR_EXEC_PATH "No such file or directory\n"
+# define ERROR_EXEC_CMD "Command not found\n"
+# define ERROR_PERM "ERROR : PERME\n"
 
-#  define ERROR_EXECVE "ERROR : EXECVE\n"
-#  define ERROR_EXEC_PATH "No such file or directory\n"
-#  define ERROR_EXEC_CMD "Command not found\n"
-#  define ERROR_PERM "ERROR : PERME\n"
+# define ERROR_FILE_PERM "Permission denied\n"
+# define ERROR_FILE_PATH "No such file or directory\n"
 
-#  define ERROR_FILE_PERM "Permission denied\n"
-#  define ERROR_FILE_PATH "No such file or directory\n"
+# define CD_TOO_MANY_ARG "bash: cd: too many arguments\n"
+# define CD_NO_DIRECTORY "bash: cd: No such file or directory\n"
+# define CD_NO_PERM "bash: cd: Permission denied\n"
+# define CD_HOME_NO_SET "bash: cd: HOME not set\n"
+# define CD_OLDPWD_NO_SET "bash: cd: OLDPWD not set\n"
 
-
-
-#  define CD_TOO_MANY_ARG "bash: cd: too many arguments\n"
-#  define CD_NO_DIRECTORY "bash: cd: No such file or directory\n"
-#  define CD_NO_PERM "bash: cd: Permission denied\n"
-#  define CD_HOME_NO_SET "bash: cd: HOME not set\n"
-#  define CD_OLDPWD_NO_SET "bash: cd: OLDPWD not set\n"
-
-#  define MALLOC_FAILURE "ERROR : MALLOC FAILURE\n"
-#  define FORK_FAILURE "ERROR : FORK FAILURE\n"
-#  define OPEN_FAILURE "ERROR : OPEN FAILURE\n"
+# define MALLOC_FAILURE "ERROR : MALLOC FAILURE\n"
+# define FORK_FAILURE "ERROR : FORK FAILURE\n"
+# define OPEN_FAILURE "ERROR : OPEN FAILURE\n"
 
 typedef struct s_envlist
 {
 	struct s_envlist	*next;
-	char				*at;
+	char				*str;
 }	t_envlist;
 
 typedef struct s_fd
@@ -71,7 +69,7 @@ typedef struct s_token
 	int				type;
 }	t_token;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_envlist	*start;
 	t_token		*first;
@@ -83,7 +81,6 @@ typedef struct	s_data
 	int			pipe;
 	pid_t		pid_fork;
 	pid_t		*tab_pid_fork;
-	// char		*test[3];		//test
 }	t_data;
 
 void		mini_pwd(t_data *data);
@@ -104,8 +101,9 @@ char		*env_dup_search(t_data *data, char *re);
 char		**env_w_search(t_data *data, char *re);
 int			env_comp(char *str1, char *str2);
 
-void    	mini_liberate_all(t_data *data, char *msg, int err);
-void    	mini_free_envlist(t_envlist *start);
+void		mini_liberate_all(t_data *data, char *msg, int err);
+char		*mini_readline(t_data *data, char *str);
+void		mini_free_envlist(t_envlist *start);
 void		mini_free_toklist(t_token *start);
 void		put_error(t_data *data, char *msg, int error);
 
@@ -114,13 +112,12 @@ void		free_data(t_data *data);
 void		free_tab(char **tab);
 
 void		set_envs(t_data *data, char **envp); //tmp
-void		last_cmd(t_data *data, char *cmd);
+void		last_cmd(t_data *data, char *cmd, char **t_cmd);
 void		env_unset(t_data *data, char *str);
 void		mini_env(t_data *data);
 
 t_data		set_data(void);
 pid_t		set_fork(t_data *data);
-void		set_sig();
 
 void		red_truncate(t_data *data, char *file);
 void		red_append(t_data *data, char *file);
@@ -132,6 +129,11 @@ int			check_research(char *str, char *re);
 int			check_id_exp(char c);
 int			check_print_env(char *str);
 int			check_nam_export(char *str);
+
+int			sig_check(t_data *data);
+void		sig_set(void);
+
+char		*str_random_eight(unsigned char *str);
 
 void		print_tokens(t_token *lst); // testtttt
 #endif

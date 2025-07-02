@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:10 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/30 15:27:09 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:31:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_token	*pipe_cut(t_data *data)
 {
-	t_token *tmp;
-	t_token *new;
+	t_token	*tmp;
+	t_token	*new;
 
 	new = data->first;
 	while (new && new->type != 2)
@@ -34,9 +34,9 @@ t_token	*pipe_cut(t_data *data)
 
 void	pipe_clear_last(t_data *data)
 {
-	t_token *tmp;
-	t_token *new;
-	t_token *old;
+	t_token	*tmp;
+	t_token	*new;
+	t_token	*old;
 
 	new = data->first;
 	while (new && new->type != 2)
@@ -56,7 +56,7 @@ void	pipe_clear_last(t_data *data)
 
 void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	if (i != 0)
@@ -79,7 +79,7 @@ void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
 	pipe_clear_last(data);				// test
 	close(data->std.in);
 	close(data->std.out);
-	red_heredoc(data, "end");
+	red_heredoc(data, "end");			// test
 	printf("\npipe %d : \n\n", i);		// test
 	print_tokens(data->first);			// test
 	mini_liberate_all(data, "test", 0); // test
@@ -101,8 +101,8 @@ void	pipe_parent(t_data *data, int p_old[2], int p_new[2], int i)
 
 void	mini_pipe(t_data *data)
 {
-	int p_old[2];
-	int p_new[2];
+	int	p_old[2];
+	int	p_new[2];
 	int	i;
 
 	if (data->pipe <= 0)
@@ -113,7 +113,6 @@ void	mini_pipe(t_data *data)
 	i = 0;
 	while (i <= data->pipe)
 	{
-		printf("\n%d / %d\n", i, data->pipe); // tmp
 		if (i < data->pipe)
 			pipe(p_new);
 		data->tab_pid_fork[i] = set_fork(data);

@@ -6,13 +6,13 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:04:32 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/24 17:50:16 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:00:38 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		env_comp(char *str1, char *str2)
+int	env_comp(char *str1, char *str2)
 {
 	while (*str1 && *str2 && *str1 != '=' && *str1 == *str2)
 	{
@@ -45,16 +45,16 @@ void	mini_env(t_data *data)
 	env = data->start;
 	while (env)
 	{
-		if (check_print_env(env->at))
-			printf("%s\n", env->at);
+		if (check_print_env(env->str))
+			printf("%s\n", env->str);
 		env = env->next;
 	}
 	data->error = 0;
 }
 
-void	last_cmd(t_data *data, char *cmd)
+void	replace_old(t_data *data, char *cmd)
 {
-	t_envlist   *node;
+	t_envlist	*node;
 	char		*old;
 	char		**w_at;
 
@@ -68,14 +68,31 @@ void	last_cmd(t_data *data, char *cmd)
 	else if (node->next)
 	{
 		env_unset(data, "_");
-		if (!old)
-			mini_liberate_all(data, ERROR_MALLOC, 1);
 		lst_add_back(data->start, old);
+		free(old);
 	}
 	else
 	{
 		w_at = env_w_search(data, "_");
 		*w_at = old;
 	}
-	free(old);
+}
+
+void	last_cmd(t_data *data, char *cmd, char **t_cmd)
+{
+	char	**l_cmd;
+
+	if (cmd)
+		replace_old(data, cmd);
+	else if (t_cmd)
+	{
+		while (*t_cmd)
+		{
+			l_cmd = t_cmd;
+			++t_cmd;
+		}
+		replace_old(data, *l_cmd);
+	}
+	else
+		replace_old(data, "");
 }

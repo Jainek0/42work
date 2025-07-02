@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:04:05 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/24 13:39:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:47:57 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_envlist	*lst_add_front(t_envlist *env, char *content)
 	new = malloc(sizeof(t_envlist));
 	if (!new)
 		return (0);
-	new->at = ft_strdup((const char *) content);
-	if (!new->at)
+	new->str = ft_strdup((const char *) content);
+	if (!new->str)
 		return (0);
 	new->next = env;
 	return (new);
@@ -30,12 +30,12 @@ void	lst_add_back(t_envlist *env, char *content)
 {
 	t_envlist	*new;
 	t_envlist	*old;
-	
+
 	new = malloc(sizeof(t_envlist));
 	if (!new)
 		return ;
-	new->at = ft_strdup((const char *) content);
-	if (!new->at)
+	new->str = ft_strdup((const char *) content);
+	if (!new->str)
 		return ;
 	old = env;
 	while (old->next)
@@ -52,7 +52,7 @@ void	lst_sort_str_tab(t_envlist **tab, int size)
 	i = 0;
 	while (i < size)
 	{
-		if (tab[i] && i > 0 && env_comp(tab[i]->at, tab[i - 1]->at) < 0)
+		if (tab[i] && i > 0 && env_comp(tab[i]->str, tab[i - 1]->str) < 0)
 		{
 			tmp = tab[i];
 			tab[i] = tab[i - 1];
@@ -63,4 +63,3 @@ void	lst_sort_str_tab(t_envlist **tab, int size)
 			i++;
 	}
 }
-

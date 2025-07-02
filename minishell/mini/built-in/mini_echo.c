@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:18:27 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 09:38:37 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:57:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	mini_echo(t_data *data, char **cmd)
 		printf("\n");
 		return ;
 	}
+	last_cmd(data, NULL, cmd);
 	echo_hook(cmd);
 }

@@ -17,6 +17,7 @@ SRC			= 	main.c	\
 				utils/short_check.c	\
 				utils/utils_env.c	\
 				utils/utils.c		\
+				utils/utils_bis.c		\
 				utils/lst.c			\
 				utils/sig.c			\
 				\

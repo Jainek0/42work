@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/24 18:31:49 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:29:29 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	print_export(t_envlist **t_lst)
 	while (t_lst[++j])
 	{
 		i = 0;
-		if (ft_strncmp(t_lst[j]->at, "_=", 2) == 0)
+		if (ft_strncmp(t_lst[j]->str, "_=", 2) == 0)
 			continue ;
-		while (t_lst[j]->at[i] && t_lst[j]->at[i] != '=')
+		while (t_lst[j]->str[i] && t_lst[j]->str[i] != '=')
 			++i;
-		if (t_lst[j]->at[i] == '=')
+		if (t_lst[j]->str[i] == '=')
 		{
 			++i;
-			printf("declare -x %.*s", i, t_lst[j]->at);
-			if (t_lst[j]->at[i])
-				printf("\"%s\"\n", &t_lst[j]->at[i]);
+			printf("declare -x %.*s", i, t_lst[j]->str);
+			if (t_lst[j]->str[i])
+				printf("\"%s\"\n", &t_lst[j]->str[i]);
 			else
 				printf("\"\"\n");
 		}
 		else
-			printf("declare -x %s\n", t_lst[j]->at);
+			printf("declare -x %s\n", t_lst[j]->str);
 	}
 	free(t_lst);
 }
@@ -47,6 +47,7 @@ void	export_print(t_data *data)
 	int			i;
 	int			j;
 
+	last_cmd(data, "export", NULL);
 	lst = data->start;
 	i = 0;
 	while (lst && ++i)
@@ -69,6 +70,7 @@ void	export_print(t_data *data)
 void	mini_export(t_data *data, char **cmd)
 {
 	data->error = 0;
+	last_cmd(data, NULL, cmd);
 	if (!cmd)
 		export_print(data);
 	else
@@ -80,7 +82,8 @@ void	mini_export(t_data *data, char **cmd)
 			else
 			{
 				data->error = 1;
-				printf("minishell: export: `%s': not a valid identifier\n", *cmd);
+				printf("minishell: export: `%s': \
+					not a valid identifier\n", *cmd);
 			}
 			++cmd;
 		}

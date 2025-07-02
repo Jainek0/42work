@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:12 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/30 12:22:52 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:30:11 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	mini_free_envlist(t_envlist *start)
 	while (clean)
 	{
 		ntc = clean->next;
-		if (clean->at)
-			free(clean->at);
+		if (clean->str)
+			free(clean->str);
 		free(clean);
 		clean = 0;
 		clean = ntc;

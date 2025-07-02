@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:57:44 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/30 10:58:28 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:31:37 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	mini_execve(t_data *data, char **cmd)
 	int		status;
 
 	(void) data;
+	last_cmd(data, NULL, cmd);
 	if (data->pid_fork == 0)
 		set_fork(data);
 	all_path = ft_split_r(env_get_search(data, "PATH"), ':', '/');

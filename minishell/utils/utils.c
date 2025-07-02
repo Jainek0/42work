@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:20:16 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/17 10:06:55 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:47:57 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	lstlen_chr(t_envlist *node, char c)
 	i = 0;
 	while (node)
 	{
-		if (ft_strchr(node->at, c))
+		if (ft_strchr(node->str, c))
 			i++;
 		node = node->next;
 	}
@@ -49,9 +49,9 @@ char	**lst_to_tab(t_data *data)
 		mini_liberate_all(data, MALLOC_FAILURE, 1);
 	while (node)
 	{
-		if (ft_strchr(node->at, '='))
+		if (ft_strchr(node->str, '='))
 		{
-			new[i] = ft_strdup(node->at);
+			new[i] = ft_strdup(node->str);
 			if (!new[i])
 			{
 				free_tab(new);
@@ -71,3 +71,11 @@ void	put_error(t_data *data, char *msg, int error)
 	data->error = error;
 }
 
+char	*mini_readline(t_data *data, char *str)
+{
+	char	*line;
+
+	dup2(data->std.in, STDIN_FILENO);
+	line = readline(str);
+	return (line);
+}

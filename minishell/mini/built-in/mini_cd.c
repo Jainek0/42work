@@ -6,18 +6,19 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:44:06 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 21:35:32 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:59:48 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	cd_home(t_data *data)
+void cd_home(t_data *data)
 {
-	char	*home;
-	char	**w_oldpwd;
+	char *home;
+	char **w_oldpwd;
 
 	home = env_get_search(data, "HOME");
+	last_cmd(data, "cd", NULL);
 	if (!home)
 		ft_putstr_fd(CD_HOME_NO_SET, 2);
 	else if (access(home, F_OK) == -1)
@@ -35,43 +36,44 @@ void	cd_home(t_data *data)
 		}
 		chdir(home);
 		data->error = 0;
+		last_cmd(data, home, NULL);
 	}
 }
 
-void	cd_oldpwd(t_data *data)
+void cd_oldpwd(t_data *data)
 {
-	char	*oldpwd;
-	char	**w_oldpwd;
+	char *oldpwd[2];
+	char **w_oldpwd;
 
-	oldpwd = env_dup_search(data, "OLDPWD");
-	if (!oldpwd)
+	oldpwd[0] = env_get_search(data, "OLDPWD");
+	last_cmd(data, "", NULL);
+	if (!oldpwd[0])
 		ft_putstr_fd(CD_OLDPWD_NO_SET, 2);
-	else if (access(oldpwd, F_OK) == -1)
+	else if (access(oldpwd[0], F_OK) == -1)
 		ft_putstr_fd(CD_NO_DIRECTORY, 2);
-	else if (access(oldpwd, X_OK) == -1)
+	else if (access(oldpwd[0], X_OK) == -1)
 		ft_putstr_fd(CD_NO_PERM, 2);
 	else
 	{
+		oldpwd[1] = getcwd(0, 0);
+		chdir(oldpwd[0]);
+		last_cmd(data, oldpwd[0], NULL);
 		w_oldpwd = env_w_search(data, "OLDPWD");
 		if (w_oldpwd)
 		{
-			*w_oldpwd = ft_clean_strjoin("OLDPWD=", getcwd(0, 0), 1);
+			*w_oldpwd = ft_clean_strjoin("OLDPWD=", oldpwd[1], 1);
 			if (!*w_oldpwd)
 				mini_liberate_all(data, MALLOC_FAILURE, 1);
 		}
-		chdir(oldpwd);
-		mini_pwd(data);
 		data->error = 0;
 	}
-	if (oldpwd)
-		free(oldpwd);
 }
 
-void	cd_parente(t_data *data)
+void cd_parente(t_data *data)
 {
-	int		i;
-	char	*path;
-	char	**w_oldpwd;
+	int i;
+	char *path;
+	char **w_oldpwd;
 
 	path = getcwd(0, 0);
 	if (!path)
@@ -87,15 +89,17 @@ void	cd_parente(t_data *data)
 		if (!*w_oldpwd)
 			mini_liberate_all(data, MALLOC_FAILURE, 1);
 	}
+	last_cmd(data, "..", NULL);
 	chdir(path);
 	data->error = 0;
 	free(path);
 }
 
-void	cd_chdir(t_data *data, char *path)
+void cd_chdir(t_data *data, char *path)
 {
-	char	**w_oldpwd;
+	char **w_oldpwd;
 
+	last_cmd(data, path, NULL);
 	if (access(path, F_OK) == -1)
 		ft_putstr_fd(CD_NO_DIRECTORY, 2);
 	else if (access(path, X_OK) == -1)
@@ -114,11 +118,12 @@ void	cd_chdir(t_data *data, char *path)
 	}
 }
 
-void	mini_cd(t_data *data, char **cmd)
+void mini_cd(t_data *data, char **cmd)
 {
 	data->error = 1;
 	if (ft_tab2len(cmd) > 2)
 	{
+		last_cmd(data, NULL, cmd);
 		ft_putstr_fd(CD_TOO_MANY_ARG, 2);
 		return ;
 	}

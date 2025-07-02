@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:17:00 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/25 17:35:57 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:34:37 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 t_data	set_data(void)
 {
-	t_data data;
+	t_data	data;
 
+	data.tab_pid_fork = NULL;
 	data.start = NULL;
+	data.first = NULL;
 	data.line = NULL;
 	data.error = 0;
 	data.pipe = 0;
