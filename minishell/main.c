@@ -6,13 +6,20 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 20:02:53 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 00:48:48 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	end_main(t_data *data)
+void	mini_history(char *line)
+{
+	if (!line || ft_strcmp(line, "") == 0)
+		return ;
+	add_history(line);
+}
+
+void	main_end(t_data *data)
 {
 	if (data->fd.in >= 0)
 		close(data->fd.in);
@@ -25,66 +32,50 @@ void	end_main(t_data *data)
 	free_data(data);
 }
 
-t_token *new_token(const char *str, int type)
+void	main_start(t_data *data, char **envp)
 {
-	t_token *node = malloc(sizeof(t_token));
-	if (!node)
-		return NULL;
-	node->str = strdup(str);
-	node->type = type;
-	node->next = NULL;
-	return node;
+	*data = set_data();
+	set_envs(data, envp);
+	sig_set();
 }
 
-t_token *create_token_list(char *args[], int size)
-{
-	t_token *head = NULL;
-	t_token *current = NULL;
-	int i = 0;
-
-	while (i < size)
-	{
-		t_token *new = new_token(args[i], (i % 2 == 1) ? 2 : 0);
-		if (!head)
-			head = new;
-		else
-			current->next = new;
-		current = new;
-		i++;
-	}
-	return head;
-}
-
-void print_tokens(t_token *lst)
-{
-	while (lst)
-	{
-		printf("%s -> %d\n", lst->str, lst->type);
-		lst = lst->next;
-	}
-}
-
-int main(int ac, char **av, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	char	*test[] = {"cd", "test", "0", 0};
-	
-	data = set_data();
-	// data.test[0] = "sleep";
-	// data.test[1] = "5";
-	// data.test[2] = 0;
-	(void)av;
-	(void)envp;
-	(void)ac;
-	sig_set();
-	set_envs(&data, envp);
 
-	printf("_ = %s\n", env_get_search(&data, "_"));
-	mini_echo(&data, test);
-	printf("_ = %s\n", env_get_search(&data, "_"));
-
-	// char *args[] = {"sleep", "|", "sleep", "|", "sleep", "|", "sleep"};
-	// data.first = create_token_list(args, 7);
-	end_main(&data);
+	(void)argv;
+	main_start(&data, envp);
+	if (argc > 1)
+	{
+		write(2, ERROR_ARG_MINISHELL, 27);
+		return (0);
+	}
+	while (1)
+	{
+		sig_reset(&data);
+		data.line = readline("ask > ");
+		mini_history(data.line);
+		shell_line_set(&data);
+		if (data.first && data.first != NULL)
+		{
+			shell_red_parse(&data);
+			shell_fonction_parse(&data);
+			if (ft_strncmp(data.first->str, "exit", 5) == 0)
+			{
+				mini_free_envlist(data.start);
+				mini_free_toklist(data.first);
+				exit (0);
+			}
+			else if (data.pipe == -1)
+				printf("minishell: syntax error near unexpected token 'newline' error: %d\n", data.error);
+			else if (data.pipe < -1)
+				printf("minishell: syntax error near unexpected token '%d' error: %d\n", data.pipe, data.error);
+			mini_free_toklist(data.first);
+			data.first = NULL;
+		}
+		printf("piping 	:%d\n", data.pipe);
+		printf("error	:%d\n", data.error);
+	}
+	main_end(&data);
 	return (0);
 }

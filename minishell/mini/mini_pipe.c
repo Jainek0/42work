@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:10 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 16:31:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 21:51:38 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
 	close(data->std.out);
 	red_heredoc(data, "end");			// test
 	printf("\npipe %d : \n\n", i);		// test
-	print_tokens(data->first);			// test
 	mini_liberate_all(data, "test", 0); // test
 }
 

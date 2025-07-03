@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:04:32 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 20:00:38 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 23:00:28 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void	replace_old(t_data *data, char *cmd)
 	if (!old)
 		mini_liberate_all(data, ERROR_MALLOC, 1);
 	if (!node)
+	{
 		lst_add_back(data->start, old);
+		free(old);
+	}
 	else if (node->next)
 	{
 		env_unset(data, "_");

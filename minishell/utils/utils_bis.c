@@ -6,29 +6,53 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:29:43 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 16:37:57 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:53:36 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*str_random_eight(unsigned char *str)
+char	**lst_token_to_tab(t_data *data)
 {
-	int	fd;
-	int	i;
+	t_token	*node;
+	char	**cmd;
+	int		len;
+	int		i;
 
+	len = lst_len(data->first);
+	cmd = malloc((len + 1)* sizeof(char **));
+	if (!cmd)
+		mini_liberate_all(data, ERROR_MALLOC, 1);
 	i = 0;
-	fd = open("/dev/urandom", O_RDONLY);
-	read(fd, str, 8);
-	while (i < 8)
+	node = data->first;
+	while (node)
 	{
-		if (!ft_isascii(str[i]))
-			str[i] = str[i] / 2;
-		if (!ft_isascii(str[i]))
-			str[i] = 'a';
+		cmd[i] = ft_strdup(node->str);
+		node = node->next;
+		if (cmd[i] == 0)
+			break ;
 		++i;
 	}
-	str[17] = 0;
-	close(fd);
-	return ((char *) str);
+	cmd[i] = 0;
+	return (cmd);
+}
+
+int	is_alnum_tab(char **tab)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while((tab[i][j]))
+		{
+			if (!ft_isalnum(tab[i][j]) && !(j == 0 && tab[i][j] == '-'))
+				return (1);
+			++j;
+		}
+		++i;
+	}
+	return (0);
 }

@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_data.c                                         :+:      :+:    :+:   */
+/*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 15:17:00 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 21:55:05 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/07/03 17:41:09 by thcaquet          #+#    #+#             */
+/*   Updated: 2025/07/03 20:16:09 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-t_data	set_data(void)
+void	mini_exit(t_data *data, char **cmd)
 {
-	t_data	data;
-
-	ft_bzero(&data, sizeof(t_data));
-	data.std.in = dup(STDIN_FILENO);
-	data.std.out = dup(STDOUT_FILENO);
-	data.pid_fork = -2;
-	data.fd.in = -2;
-	data.fd.out = -2;
-	return (data);
+	free_data(data);
+	if (is_alnum_tab(cmd))
+	{
+		printf("%s\n", EXIT_NUMERIC_ARG);
+		free2dstr(cmd);
+		exit(data->error);
+	}
+	if (ft_tab2len(cmd) > 2)
+	{
+		printf("%s\n", EXIT_TOO_MANY_ARG);
+		free2dstr(cmd);
+		exit(data->error);
+	}
+	if (cmd[1])
+		data->error = (char) ft_atoi(cmd[1]);
+	free2dstr(cmd);
+	exit((char) data->error);
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:45:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 16:47:57 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:07:52 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,14 @@ void	env_unset(t_data *data, char *str)
 	node = env_search(data, str);
 	if (!node)
 		return ;
-	while (lst->next != node)
-		lst = lst->next;
-	lst->next = node->next;
+	if (node == data->start)
+		data->start = data->start->next;
+	else
+	{
+		while (lst->next != node)
+			lst = lst->next;
+		lst->next = node->next;
+	}
 	free(node->str);
 	free(node);
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:19:57 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 16:35:07 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:20:55 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_research(char *str, char *re)
 		str++;
 		re++;
 	}
-	return (*str && !*re && *str == '=');
+	return (!*re && (*str == '=' || *str == 0));
 }
 
 int	check_print_env(char *str)

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_data.c                                         :+:      :+:    :+:   */
+/*   minishell_liberator.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 15:17:00 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 21:55:05 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
+/*   Updated: 2025/07/03 13:27:34 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_data	set_data(void)
+void	ft_free(void *ptr)
 {
-	t_data	data;
+	free(ptr);
+	ptr = NULL;
+}
 
-	ft_bzero(&data, sizeof(t_data));
-	data.std.in = dup(STDIN_FILENO);
-	data.std.out = dup(STDOUT_FILENO);
-	data.pid_fork = -2;
-	data.fd.in = -2;
-	data.fd.out = -2;
-	return (data);
+void	shell_invalid_line(char *str, char *msg)
+{
+	if (str && str != NULL)
+		ft_free(str);
+	if (msg)
+		printf("Error : %s\n", msg);
 }

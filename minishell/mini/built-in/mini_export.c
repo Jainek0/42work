@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 20:29:29 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:58:38 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	mini_export(t_data *data, char **cmd)
 {
 	data->error = 0;
 	last_cmd(data, NULL, cmd);
-	if (!cmd)
+	++cmd;
+	if (!*cmd)
 		export_print(data);
 	else
 	{
