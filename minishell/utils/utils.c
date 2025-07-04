@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:20:16 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 16:47:57 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:41:27 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*mini_readline(t_data *data, char *str)
 	char	*line;
 
 	dup2(data->std.in, STDIN_FILENO);
+	dup2(data->std.out, STDOUT_FILENO);
 	line = readline(str);
 	return (line);
 }

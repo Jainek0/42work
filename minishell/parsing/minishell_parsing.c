@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 00:52:36 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:15:04 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	shell_fonction_parse(t_data *data)
 {
 	char	**cmd;
 
-	if (!sig_check(data))
+	if (!sig_check(data) || !data->first)
 		return ;
 	cmd = lst_token_to_tab(data);
 	if (data->first->type == FONCTION && ft_strncmp(data->first->str, "echo", 5) == 0)
@@ -38,26 +38,27 @@ void	shell_fonction_parse(t_data *data)
 	free2dstr(cmd);
 }
 
-void	tok_unset(t_data *data, t_token *node)
+t_token	*tok_unset(t_data *data, t_token *node)
 {
 	t_token	*lst;
 
 	data->error = 0;
 	lst = data->first;
-	if (!lst)
-		return ;
-	if (!node)
-		return ;
-	if (node == data->first)
-		data->first = data->first->next;
+	if (!lst || !node)
+		return (0);
+	if (node == lst)
+		lst = lst->next;
 	else
 	{
 		while (lst->next != node)
 			lst = lst->next;
 		lst->next = node->next;
 	}
+	if (node == data->first)
+		data->first = node->next;
 	free(node->str);
 	free(node);
+	return (lst);
 }
 
 void	shell_red_parse(t_data *data)
@@ -69,17 +70,17 @@ void	shell_red_parse(t_data *data)
 	{
 		if (!sig_check(data))
 			return ;
-		if (data->first->type == REDINFILE)
-		{
-			tok_unset(data, node);
+		if (node->type == 3)
 			red_read(data, node->str);
-		}
-		else if (data->first->type == REDHEREDOC)
+		else if (node->type == 4)
 			red_heredoc(data, node->str);
-		else if (data->first->type == REDOUTFILE)
+		else if (node->type == 5)
 			red_truncate(data, node->str);
-		else if (data->first->type == REDAPPEND)
+		else if (node->type == 6)
 			red_append(data, node->str);
-		node = node->next;
+		if (node && node->type >= 3 && node->type <= 6)
+			node = tok_unset(data, node);
+		else
+			node = node->next;
 	}
 }

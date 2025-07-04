@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:10:28 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 17:44:30 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:50:00 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	mini_pwd(t_data *data, char **cmd)
 	last_cmd(data, NULL, cmd);
 	path = getcwd(0, 0);
 	last_cmd(data, "pwd", NULL);
-	if (*path)
+	if (path)
 	{
 		printf("%s\n", path);
 		free(path);

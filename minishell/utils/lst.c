@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:04:05 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 15:19:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:15:09 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ void	lst_sort_str_tab(t_envlist **tab, int size)
 	}
 }
 
-int	lst_len(t_token *start)
+int	lst_len(t_token *first)
 {
 	t_token	*node;
 	int			i;
 
+	if (!first)
+		return (0);
 	i = 0;
-	node = start;
+	node = first;
 	while (node)
 	{
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 00:47:54 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:47:06 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ typedef struct s_data
 	pid_t		*tab_pid_fork;
 }	t_data;
 
+void		print_tok(t_data *data); // tmp
+
 void		mini_pwd(t_data *data, char **cmd);
 void		mini_cd(t_data *data, char **cmd);
 void		mini_echo(t_data *data, char **cmd);
@@ -137,7 +139,7 @@ int			env_comp(char *str1, char *str2);
 void		mini_liberate_all(t_data *data, char *msg, int err);
 char		*mini_readline(t_data *data, char *str);
 void		mini_free_envlist(t_envlist *start);
-void		mini_free_toklist(t_token *start);
+t_token		*mini_free_toklist(t_token *first);
 void		put_error(t_data *data, char *msg, int error);
 
 char		**lst_to_tab(t_data *data);
@@ -173,7 +175,7 @@ int			is_alnum_tab(char **tab);
 // ledupont
 
 void		free2dstr(char **strs);
-void		ft_free(void *ptr);
+void		ft_free(void **ptr);
 void		shell_red_parse(t_data *data);
 void		shell_fonction_parse(t_data *data);
 void		shell_check_line(t_data *data, char *s, t_index *in);

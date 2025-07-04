@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/03 13:27:34 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	shell_spacing_sep(t_data *data, t_index *in, int type)
 	while (data->line[i])
 		new[j++] = data->line[i++];
 	new[j] = '\0';
-	ft_free(data->line);
+	ft_free((void **)&(data->line));
 	data->line = new;
 	in->i = in->i + type + 1;
 }

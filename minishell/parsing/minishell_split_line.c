@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/03 16:37:33 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	shell_line_sep(t_data *data)
 	shell_sizeword(data);
 	shell_split_line(data);
 	data->ltab[in.w] = NULL;
-	ft_free(data->line);
+	ft_free((void **)&data->line);
 	data->line = NULL;
 	shell_tokenizer(data);
 	free2dstr(data->ltab);

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:10 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 21:51:38 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:09:02 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@ t_token	*pipe_cut(t_data *data)
 		free(new);
 		new = tmp;
 	}
-	tmp = new->next;
-	free(new->str);
-	free(new);
+	if (new)
+	{
+		tmp = new->next;
+		free(new->str);
+		free(new);
+	}
+	else
+		tmp = 0;
 	new = tmp;
 	return (new);
 }
@@ -39,6 +44,7 @@ void	pipe_clear_last(t_data *data)
 	t_token	*old;
 
 	new = data->first;
+	old = 0;
 	while (new && new->type != 2)
 	{
 		old = new;
@@ -51,7 +57,8 @@ void	pipe_clear_last(t_data *data)
 		free(new);
 		new = tmp;
 	}
-	old->next = 0;
+	if (old)
+		old->next = 0;
 }
 
 void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
@@ -71,17 +78,12 @@ void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
 		close(p_new[0]);
 		close(p_new[1]);
 	}
-	while (j < i)
-	{
-		data->first = pipe_cut(data);
-		++j;
-	}
-	pipe_clear_last(data);				// test
+	pipe_clear_last(data);
+	shell_fonction_parse(data);
 	close(data->std.in);
 	close(data->std.out);
-	red_heredoc(data, "end");			// test
-	printf("\npipe %d : \n\n", i);		// test
-	mini_liberate_all(data, "test", 0); // test
+	free_data(data);
+	exit(data->error);
 }
 
 void	pipe_parent(t_data *data, int p_old[2], int p_new[2], int i)
@@ -104,14 +106,13 @@ void	mini_pipe(t_data *data)
 	int	p_new[2];
 	int	i;
 
-	if (data->pipe <= 0)
-		return ;
 	data->tab_pid_fork = malloc(sizeof(pid_t *) *(data->pipe + 1));
 	if (!data->tab_pid_fork)
 		mini_liberate_all(data, MALLOC_FAILURE, 1);
 	i = 0;
 	while (i <= data->pipe)
 	{
+		shell_red_parse(data);
 		if (i < data->pipe)
 			pipe(p_new);
 		data->tab_pid_fork[i] = set_fork(data);
@@ -120,8 +121,9 @@ void	mini_pipe(t_data *data)
 		else
 			pipe_parent(data, p_old, p_new, i);
 		++i;
+		data->first = pipe_cut(data);
 	}
-	while (--i >= 0)
+	i = -1;
+	while (++i <= data->pipe)
 		waitpid(data->tab_pid_fork[i], NULL, 0);
-	pipe_clear_last(data);
 }

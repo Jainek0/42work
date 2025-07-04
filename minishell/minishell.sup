@@ -40,3 +40,10 @@
    ioctl(generic)
    fun:ioctl
 }
+
+{
+   ignore_execve_leak
+   Memcheck:Leak
+   fun:execve
+   fun:*
+}

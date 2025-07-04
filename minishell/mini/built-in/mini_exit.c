@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:41:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 20:16:09 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:40:09 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ void	mini_exit(t_data *data, char **cmd)
 	if (cmd[1])
 		data->error = (char) ft_atoi(cmd[1]);
 	free2dstr(cmd);
+	close(data->std.in);
+	close(data->std.out);
 	exit((char) data->error);
 }

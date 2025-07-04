@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/03 13:27:34 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	shell_error_expanding(t_data *data, char *s, int i)
 	while (s[k])
 		new[j++] = s[k++];
 	new[j] = '\0';
-	ft_free(data->tmp);
-	ft_free(s);
+	ft_free((void **)&data->tmp);
+	ft_free((void **)&s);
 	*data->sptr = new;
 	return (i - 1);
 }
@@ -58,7 +58,7 @@ int	shell_empty_expanding(t_data *data, char *s, int i, int l)
 	while (s[++n])
 		new[j++] = s[n];
 	new[j] = '\0';
-	ft_free(s);
+	ft_free((void **)&s);
 	*data->sptr = new;
 	return (i);
 }
@@ -83,7 +83,7 @@ int	shell_expanding(t_data *data, char *cur, char *s, int i)
 	while (s[++n])
 		new[j++] = s[n];
 	new[j] = '\0';
-	ft_free(s);
+	ft_free((void **)&s);
 	*data->sptr = new;
 	return (i);
 }

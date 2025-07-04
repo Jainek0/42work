@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 21:26:43 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 12:30:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	hook_heredoc(t_data *data, char *end)
 	{
 		line = mini_readline(data, "> ");
 		if (!line)
-			return ;
-		if (!ft_strcmp(line, end))
+			break ;
+		if (ft_strcmp(line, end) == 0)
 		{
 			free(line);
 			break ;

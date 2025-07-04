@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 00:48:48 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:48:01 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ void	main_end(t_data *data)
 		close(data->fd.in);
 	if (data->fd.out >= 0)
 		close(data->fd.out);
-	if (data->std.in >= 0)
-		close(data->std.in);
-	if (data->std.out >= 0)
-		close(data->std.out);
+	close(data->std.in);
+	close(data->std.out);
 	free_data(data);
 }
 
@@ -52,29 +50,35 @@ int	main(int argc, char **argv, char **envp)
 	}
 	while (1)
 	{
+		data.pipe = 0;
 		sig_reset(&data);
-		data.line = readline("ask > ");
+		data.line = mini_readline(&data, "minishell :");
+		if (!data.line)
+		{
+			break ;
+			perror("exit\n");
+		}
 		mini_history(data.line);
 		shell_line_set(&data);
 		if (data.first && data.first != NULL)
 		{
-			shell_red_parse(&data);
-			shell_fonction_parse(&data);
-			if (ft_strncmp(data.first->str, "exit", 5) == 0)
+			if (data.pipe == 0)
 			{
-				mini_free_envlist(data.start);
-				mini_free_toklist(data.first);
-				exit (0);
+				shell_red_parse(&data);
+				shell_fonction_parse(&data);
 			}
 			else if (data.pipe == -1)
 				printf("minishell: syntax error near unexpected token 'newline' error: %d\n", data.error);
 			else if (data.pipe < -1)
 				printf("minishell: syntax error near unexpected token '%d' error: %d\n", data.pipe, data.error);
-			mini_free_toklist(data.first);
-			data.first = NULL;
+			else
+			{
+				mini_pipe(&data);
+				free(data.tab_pid_fork);
+				data.tab_pid_fork = 0;
+			}
 		}
-		printf("piping 	:%d\n", data.pipe);
-		printf("error	:%d\n", data.error);
+		data.first = mini_free_toklist(data.first);
 	}
 	main_end(&data);
 	return (0);
