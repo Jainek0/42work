@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	shell_error_expanding(t_data *data, char *s, int i)
 
 	data->tmp = ft_itoa(data->error);
 	if (!data->tmp)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	new = malloc(sizeof(char) * (ft_strlen(s)
 				+ ft_strlen(data->tmp) - 1));
 	if (!new)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	j = -1;
 	while (++j < i)
 		new[j] = s[j];
@@ -50,7 +50,7 @@ int	shell_empty_expanding(t_data *data, char *s, int i, int l)
 	n = ft_strlen(s) - l;
 	new = malloc(sizeof(char) * (n + 1));
 	if (!new)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	j = -1;
 	while (++j < i)
 		new[j] = s[j];
@@ -72,7 +72,7 @@ int	shell_expanding(t_data *data, char *cur, char *s, int i)
 	n = ft_strlen(s) + ft_strlen(cur) - (data->len * 2);
 	new = malloc(sizeof(char) * (n + 1) + 1);
 	if (!new)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	j = -1;
 	while (++j < i)
 		new[j] = s[j];

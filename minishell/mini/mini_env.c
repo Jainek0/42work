@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:04:32 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 23:00:28 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	set_envs(t_data *data, char **envp)
 	{
 		data->start = lst_add_front(data->start, envp[i]);
 		if (!data->start)
-			mini_liberate_all(data, ERROR_MALLOC, 1);
+			liberate_all(data, ERROR_MALLOC, 1);
 	}
 }
 
@@ -62,7 +62,7 @@ void	replace_old(t_data *data, char *cmd)
 	node = env_search(data, "_");
 	old = ft_strjoin("_=", cmd);
 	if (!old)
-		mini_liberate_all(data, ERROR_MALLOC, 1);
+		liberate_all(data, ERROR_MALLOC, 1);
 	if (!node)
 	{
 		lst_add_back(data->start, old);

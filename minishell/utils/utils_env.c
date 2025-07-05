@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:45:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 18:07:52 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ char	*env_get_search(t_data *data, char *re)
 	if (node)
 	{
 		str = node->str;
-		while (*str != '=' && str)
+		while (str && *str && *str != '=')
 			++str;
-		return (++str);
+		if (*str == '=')
+			return (++str);
+		return (0);
 	}
 	return (0);
 }
@@ -50,7 +52,7 @@ char	*env_dup_search(t_data *data, char *re)
 			str++;
 		new = ft_strdup(++str);
 		if (!new)
-			mini_liberate_all(data, MALLOC_FAILURE, 1);
+			liberate_all(data, MALLOC_FAILURE, 1);
 		return (new);
 	}
 	return (0);

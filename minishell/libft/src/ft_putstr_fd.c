@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 14:38:21 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/24 14:16:02 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:57:48 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
+	int	i;
+
+	i = 0;
 	if (!s)
 		return ;
-	while (*s)
-		write(fd, s++, 1);
+	while (s[i])
+		++i;
+	write(fd, s, i);
 }

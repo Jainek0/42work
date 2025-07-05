@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/03 13:54:12 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ t_token	*shell_token_new(t_data *data, char **strs, int i)
 
 	new = malloc(sizeof(t_token));
 	if (!new)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	new->str = ft_strdup(strs[i]);
 	new->type = -1;
 	if (!new->str)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	shell_sizeword(t_data *data)
 		{
 			data->ltab[in.w - 1] = ft_calloc(in.h + 1, sizeof(char));
 			if (!data->ltab[in.w - 1])
-				mini_liberate_all(data, "malloc failure", 1);
+				liberate_all(data, "malloc failure", 1);
 			in.h = 0;
 		}
 	}
@@ -110,7 +110,7 @@ void	shell_line_sep(t_data *data)
 	in.w = shell_countwords(data->line);
 	data->ltab = malloc(sizeof(char *) * (in.w + 1));
 	if (!data->ltab)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	in.i = -1;
 	shell_sizeword(data);
 	shell_split_line(data);

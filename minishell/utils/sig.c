@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:30:29 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 11:31:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:01:01 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	sig_check(t_data *data)
 
 void	sig_reset(t_data *data)
 {
+	data->pipe = 0;
 	if (g_sig == 0)
 		return ;
 	data->error = g_sig;

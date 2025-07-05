@@ -6,70 +6,72 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:33:33 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 12:30:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:03:00 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	red_truncate(t_data *data, char *file)
+int	red_truncate(t_data *data, char *file)
 {
+	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
+	{
+		put_error(data, ERROR_FILE_PERM, 126);
+		return (0);
+	}
 	data->fd.out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data->fd.out < 0)
 	{
-		put_error(data, OPEN_FAILURE, 1);
-		data->error = 128;
-		return ;
+		put_error(data, OPEN_FAILURE, 128);
+		return (0);
 	}
 	dup2(data->fd.out, STDOUT_FILENO);
 	close(data->fd.out);
 	data->error = 0;
+	return (1);
 }
 
-void	red_append(t_data *data, char *file)
+int	red_append(t_data *data, char *file)
 {
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
-		put_error(data, ERROR_FILE_PERM, 1);
-		data->error = 126;
-		return ;
+		put_error(data, ERROR_FILE_PERM, 126);
+		return (0);
 	}
 	data->fd.out = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (data->fd.out < 0)
 	{
-		put_error(data, OPEN_FAILURE, 1);
-		data->error = 128;
-		return ;
+		put_error(data, OPEN_FAILURE, 128);
+		return (0);
 	}
 	dup2(data->fd.out, STDOUT_FILENO);
 	close(data->fd.out);
 	data->error = 0;
+	return (1);
 }
 
-void	red_read(t_data *data, char *file)
+int	red_read(t_data *data, char *file)
 {
 	if (access(file, F_OK))
 	{
-		put_error(data, ERROR_FILE_PATH, 1);
-		data->error = 126;
-		return ;
+		put_error(data, ERROR_FILE_PATH, 126);
+		return (0);
 	}
 	else if (access(file, R_OK))
 	{
-		put_error(data, ERROR_FILE_PERM, 1);
-		data->error = 127;
-		return ;
+		put_error(data, ERROR_FILE_PERM, 127);
+		return (0);
 	}
 	data->fd.in = open(file, O_RDONLY);
 	if (data->fd.in < 0)
 	{
-		put_error(data, OPEN_FAILURE, 1);
-		data->error = 128;
-		return ;
+		put_error(data, OPEN_FAILURE, 128);
+		return (0);
 	}
 	dup2(data->fd.in, STDIN_FILENO);
 	close(data->fd.in);
 	data->error = 0;
+	return (1);
 }
 
 void	hook_heredoc(t_data *data, char *end)
@@ -82,7 +84,10 @@ void	hook_heredoc(t_data *data, char *end)
 	{
 		line = mini_readline(data, "> ");
 		if (!line)
+		{
+			put_error(data, SIG_RED, 0);
 			break ;
+		}
 		if (ft_strcmp(line, end) == 0)
 		{
 			free(line);
@@ -109,7 +114,7 @@ void	red_heredoc(t_data *data, char *end)
 		data->fd.file = ft_clean_strjoin("heredoc_tmp_", ft_itoa(i++), 1);
 		if (i == -2147483647 || !data->fd.file)
 		{
-			printf("%s", ERROR_HEREDOC);
+			put_error(data, ERROR_HEREDOC, 1);
 			free(data->fd.file);
 			return ;
 		}

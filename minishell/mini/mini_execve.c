@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:57:44 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 15:43:15 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:21:39 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ void	mini_execve(t_data *data, char **cmd)
 	last_cmd(data, NULL, cmd);
 	if (ft_strcmp("", cmd[0]) == 0 && cmd[1] == 0)
 	{
-		printf("%s", ERROR_EXEC_CMD);
-		data->error = 127;
+		put_error(data, ERROR_EXEC_CMD, 127);
 		return ;
 	}
 	if (data->pipe == 0)

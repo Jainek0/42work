@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 20:15:04 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:45:10 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,25 @@ t_token	*tok_unset(t_data *data, t_token *node)
 
 void	shell_red_parse(t_data *data)
 {
+	int		err[3];
 	t_token	*node;
 
 	node = data->first;
+	err[0] = 1;
+	err[1] = 1;
+	err[2] = 1;
 	while (node && node->type != 2)
 	{
 		if (!sig_check(data))
 			return ;
-		if (node->type == 3)
-			red_read(data, node->str);
+		if (err[0] == 1 && node->type == 3)
+			err[0] = red_read(data, node->str);
 		else if (node->type == 4)
 			red_heredoc(data, node->str);
-		else if (node->type == 5)
-			red_truncate(data, node->str);
-		else if (node->type == 6)
-			red_append(data, node->str);
+		else if (err[1] == 1 && node->type == 5)
+			err[1] = red_truncate(data, node->str);
+		else if (err[2] == 1 && node->type == 6)
+			err[2] = red_append(data, node->str);
 		if (node && node->type >= 3 && node->type <= 6)
 			node = tok_unset(data, node);
 		else

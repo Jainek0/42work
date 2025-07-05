@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 19:03:22 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	ft_free(void **ptr)
 	*ptr = NULL;
 }
 
-void	shell_invalid_line(char *str, char *msg)
+void	shell_invalid_line(t_data *data, char *msg)
 {
-	if (str && str != NULL)
-		ft_free((void **)&str);
+	if (data->line && data->line != NULL)
+		ft_free((void **)&data->line);
 	if (msg)
-		printf("Error : %s\n", msg);
+		put_error(data, msg, 2);
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:44:06 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/02 19:59:48 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:19:33 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void cd_home(t_data *data)
 	home = env_get_search(data, "HOME");
 	last_cmd(data, "cd", NULL);
 	if (!home)
-		ft_putstr_fd(CD_HOME_NO_SET, 2);
+		put_error(data, CD_HOME_NO_SET, 1);
 	else if (access(home, F_OK) == -1)
-		ft_putstr_fd(CD_NO_DIRECTORY, 2);
+		put_error(data, CD_NO_DIRECTORY, 1);
 	else if (access(home, X_OK) == -1)
-		ft_putstr_fd(CD_NO_PERM, 2);
+		put_error(data, CD_NO_PERM, 1);
 	else
 	{
 		w_oldpwd = env_w_search(data, "OLDPWD");
@@ -32,10 +32,9 @@ void cd_home(t_data *data)
 		{
 			*w_oldpwd = ft_clean_strjoin("OLDPWD=", getcwd(0, 0), 1);
 			if (!*w_oldpwd)
-				mini_liberate_all(data, MALLOC_FAILURE, 1);
+				liberate_all(data, MALLOC_FAILURE, 1);
 		}
 		chdir(home);
-		data->error = 0;
 		last_cmd(data, home, NULL);
 	}
 }
@@ -48,11 +47,11 @@ void cd_oldpwd(t_data *data)
 	oldpwd[0] = env_get_search(data, "OLDPWD");
 	last_cmd(data, "", NULL);
 	if (!oldpwd[0])
-		ft_putstr_fd(CD_OLDPWD_NO_SET, 2);
+		put_error(data, CD_OLDPWD_NO_SET, 1);
 	else if (access(oldpwd[0], F_OK) == -1)
-		ft_putstr_fd(CD_NO_DIRECTORY, 2);
+		put_error(data, CD_NO_DIRECTORY, 1);
 	else if (access(oldpwd[0], X_OK) == -1)
-		ft_putstr_fd(CD_NO_PERM, 2);
+		put_error(data, CD_NO_PERM, 1);
 	else
 	{
 		oldpwd[1] = getcwd(0, 0);
@@ -63,9 +62,8 @@ void cd_oldpwd(t_data *data)
 		{
 			*w_oldpwd = ft_clean_strjoin("OLDPWD=", oldpwd[1], 1);
 			if (!*w_oldpwd)
-				mini_liberate_all(data, MALLOC_FAILURE, 1);
+				liberate_all(data, MALLOC_FAILURE, 1);
 		}
-		data->error = 0;
 	}
 }
 
@@ -77,7 +75,10 @@ void cd_parente(t_data *data)
 
 	path = getcwd(0, 0);
 	if (!path)
-		mini_liberate_all(data, MALLOC_FAILURE, 1);
+	{
+		put_error(data, OPEN_GETWCD, 1);
+		return ;
+	}
 	i = ft_strlen(path);
 	while (i > 1 && i >= 0 && path[i] != '/')
 		i--;
@@ -87,11 +88,10 @@ void cd_parente(t_data *data)
 	{
 		*w_oldpwd = ft_clean_strjoin("OLDPWD=", getcwd(0, 0), 1);
 		if (!*w_oldpwd)
-			mini_liberate_all(data, MALLOC_FAILURE, 1);
+			liberate_all(data, MALLOC_FAILURE, 1);
 	}
 	last_cmd(data, "..", NULL);
 	chdir(path);
-	data->error = 0;
 	free(path);
 }
 
@@ -101,9 +101,9 @@ void cd_chdir(t_data *data, char *path)
 
 	last_cmd(data, path, NULL);
 	if (access(path, F_OK) == -1)
-		ft_putstr_fd(CD_NO_DIRECTORY, 2);
+		put_error(data, CD_NO_DIRECTORY, 1);
 	else if (access(path, X_OK) == -1)
-		ft_putstr_fd(CD_NO_PERM, 2);
+		put_error(data, CD_NO_PERM, 1);
 	else
 	{
 		w_oldpwd = env_w_search(data, "OLDPWD");
@@ -111,20 +111,19 @@ void cd_chdir(t_data *data, char *path)
 		{
 			*w_oldpwd = ft_clean_strjoin("OLDPWD=", getcwd(0, 0), 1);
 			if (!*w_oldpwd)
-				mini_liberate_all(data, MALLOC_FAILURE, 1);
+				liberate_all(data, MALLOC_FAILURE, 1);
 		}
 		chdir(path);
-		data->error = 0;
 	}
 }
 
 void mini_cd(t_data *data, char **cmd)
 {
-	data->error = 1;
+	data->error = 0;
 	if (ft_tab2len(cmd) > 2)
 	{
 		last_cmd(data, NULL, cmd);
-		ft_putstr_fd(CD_TOO_MANY_ARG, 2);
+		put_error(data, CD_TOO_MANY_ARG, 1);
 		return ;
 	}
 	else if (ft_tab2len(cmd) == 1 || (cmd[1][0] == '~' && cmd[1][1] == 0))

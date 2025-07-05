@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 15:36:51 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/03 17:30:31 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:06:51 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_s(unsigned char *ap)
 	if (!ap)
 		i = ft_putstrf_fd((unsigned char *) "(null)", 1);
 	else
-		i = ft_putstrf_fd(ap, 1);
+		i = ft_putstrf_fd((unsigned char *) ap, 1);
 	return (i);
 }
 

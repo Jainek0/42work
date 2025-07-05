@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 19:47:06 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:27:30 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,32 @@
 # define ERROR_EXECVE "ERROR : EXECVE\n"
 # define ERROR_EXEC_PATH "No such file or directory\n"
 # define ERROR_EXEC_CMD "Command not found\n"
-# define ERROR_PERM "minishell : Permission denied\n"
+# define ERROR_PERM "minishell: Permission denied\n"
 
-# define ERROR_FILE_PERM "Permission denied\n"
-# define ERROR_FILE_PATH "No such file or directory\n"
+# define ERROR_FILE_PERM "minishell: Permission denied\n"
+# define ERROR_FILE_PATH "minishell: No such file or directory\n"
 
 # define CD_TOO_MANY_ARG "minishell: cd: too many arguments\n"
 # define CD_NO_DIRECTORY "minishell: cd: No such file or directory\n"
 # define CD_NO_PERM "minishell: cd: Permission denied\n"
 # define CD_HOME_NO_SET "minishell: cd: HOME not set\n"
 # define CD_OLDPWD_NO_SET "minishell: cd: OLDPWD not set\n"
+# define SIG_RED "minishell: warning: here-document at line 1 \
+delimited by end-of-file\n"
 
 # define MALLOC_FAILURE "ERROR : MALLOC FAILURE\n"
 # define FORK_FAILURE "ERROR : FORK FAILURE\n"
 # define OPEN_FAILURE "ERROR : OPEN FAILURE\n"
+# define OPEN_GETWCD "ERROR : OPEN GETWCD\n"
+
+
+# define EXPORT_NO_VALID "minishell: export: not a valid identifier\n"
 
 # define EXIT_TOO_MANY_ARG "minishell: exit: too many arguments\n"
 # define EXIT_NUMERIC_ARG "minishell: exit: numeric argument required\n"
 
-# define ERROR_ARG_MINISHELL "Error : no argument please\n"
+# define INVALID_LINE "minishell: invalid line\n"
+# define ERROR_ARG_MINISHELL "minishell: no argument please\n"
 
 # define ARG 0
 # define FONCTION 1
@@ -113,8 +120,6 @@ typedef struct s_data
 	pid_t		*tab_pid_fork;
 }	t_data;
 
-void		print_tok(t_data *data); // tmp
-
 void		mini_pwd(t_data *data, char **cmd);
 void		mini_cd(t_data *data, char **cmd);
 void		mini_echo(t_data *data, char **cmd);
@@ -136,7 +141,7 @@ char		*env_dup_search(t_data *data, char *re);
 char		**env_w_search(t_data *data, char *re);
 int			env_comp(char *str1, char *str2);
 
-void		mini_liberate_all(t_data *data, char *msg, int err);
+void		liberate_all(t_data *data, char *msg, int err);
 char		*mini_readline(t_data *data, char *str);
 void		mini_free_envlist(t_envlist *start);
 t_token		*mini_free_toklist(t_token *first);
@@ -154,9 +159,9 @@ void		mini_env(t_data *data);
 t_data		set_data(void);
 pid_t		set_fork(t_data *data);
 
-void		red_truncate(t_data *data, char *file);
-void		red_append(t_data *data, char *file);
-void		red_read(t_data *data, char *file);
+int			red_truncate(t_data *data, char *file);
+int			red_append(t_data *data, char *file);
+int			red_read(t_data *data, char *file);
 void		hook_heredoc(t_data *data, char *end);
 void		red_heredoc(t_data *data, char *end);
 
@@ -173,6 +178,8 @@ char		**lst_token_to_tab(t_data *data);
 int			is_alnum_tab(char **tab);
 
 // ledupont
+
+void		shell_invalid_line(t_data *data, char *msg);
 
 void		free2dstr(char **strs);
 void		ft_free(void **ptr);
@@ -191,7 +198,6 @@ int			shell_expand_nutcase(t_data *data, char *s, int i);
 int			shell_expanding(t_data *data, char *cur, char *s, int i);
 void		shell_free_envlist(t_envlist *start);
 void		shell_free_token(t_token *first);
-void		shell_invalid_line(char *str, char *msg);
 int			shell_isquote(char c);
 int			shell_isredir(char *str, int i);
 int			shell_isspace(char c);

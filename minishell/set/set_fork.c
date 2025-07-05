@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:42 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 12:20:52 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ pid_t	set_fork(t_data *data)
 		signal(SIGQUIT, SIG_DFL);
 	}
 	if (data->pid_fork == -1)
-		mini_liberate_all(data, FORK_FAILURE, 1);
+		liberate_all(data, FORK_FAILURE, 1);
 	return (pid);
 }

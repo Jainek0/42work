@@ -49,7 +49,7 @@ LDFLAGS		= -I $(LIB_PATH)/
 all: $(LIB) $(NAME)
 
 $(NAME): $(OBJ)
-	cc $(CFLAGS) $(OBJ) $(LIB) -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(LIB) -l readline -o $(NAME)
 
 $(LIB):
 	make -sC $(LIB_PATH)

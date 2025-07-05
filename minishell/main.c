@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 19:48:01 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:43:32 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	main_end(t_data *data)
 		close(data->fd.in);
 	if (data->fd.out >= 0)
 		close(data->fd.out);
-	close(data->std.in);
-	close(data->std.out);
 	free_data(data);
 }
 
@@ -42,21 +40,20 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	(void)argv;
-	main_start(&data, envp);
 	if (argc > 1)
 	{
-		write(2, ERROR_ARG_MINISHELL, 27);
+		ft_putstr_fd(ERROR_ARG_MINISHELL, 2);
 		return (0);
 	}
+	main_start(&data, envp);
 	while (1)
 	{
-		data.pipe = 0;
 		sig_reset(&data);
-		data.line = mini_readline(&data, "minishell :");
+		data.line = mini_readline(&data, "minishell$ ");
 		if (!data.line)
 		{
+			printf("exit\n");
 			break ;
-			perror("exit\n");
 		}
 		mini_history(data.line);
 		shell_line_set(&data);

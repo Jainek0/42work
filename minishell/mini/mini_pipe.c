@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:10 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 20:09:02 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ void	pipe_clear_last(t_data *data)
 	t_token	*tmp;
 	t_token	*new;
 	t_token	*old;
+	t_token	*first;
 
 	new = data->first;
+	first = data->first;
 	old = 0;
-	while (new && new->type != 2)
+	if (!data->first || data->first->type == PIPE)
+		first = 0;
+	while (new && new->type != PIPE)
 	{
 		old = new;
 		new = new->next;
@@ -59,6 +63,7 @@ void	pipe_clear_last(t_data *data)
 	}
 	if (old)
 		old->next = 0;
+	data->first = first;
 }
 
 void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
@@ -108,7 +113,7 @@ void	mini_pipe(t_data *data)
 
 	data->tab_pid_fork = malloc(sizeof(pid_t *) *(data->pipe + 1));
 	if (!data->tab_pid_fork)
-		mini_liberate_all(data, MALLOC_FAILURE, 1);
+		liberate_all(data, MALLOC_FAILURE, 1);
 	i = 0;
 	while (i <= data->pipe)
 	{

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/04 16:32:03 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:28:14 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	shell_spacing_sep(t_data *data, t_index *in, int type)
 
 	new = malloc(sizeof(char) * (ft_strlen(data->line) + 3));
 	if (!new)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	j = -1;
 	while (++j < in->i)
 		new[j] = data->line[j];
@@ -78,7 +78,7 @@ void	shell_line_set(t_data *data)
 	while (data->line != NULL
 		&& (shell_isspace(data->line[in.i]) == 1 || data->line[in.i] == 0))
 		if (data->line[in.i++] == 0)
-			return (shell_invalid_line(data->line, NULL));
+			return (shell_invalid_line(data, NULL));
 	in.i = -1;
 	while (data->line && data->line[++in.i])
 	{
@@ -88,5 +88,5 @@ void	shell_line_set(t_data *data)
 	if (data->line && data->line != NULL && in.m == 0)
 		shell_line_sep(data);
 	else
-		shell_invalid_line(data->line, "invalid line");
+		shell_invalid_line(data, INVALID_LINE);
 }

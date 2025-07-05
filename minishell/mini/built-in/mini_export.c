@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 17:58:38 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:22:50 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	export_print(t_data *data)
 		lst = lst->next;
 	t_lst = malloc(sizeof(t_envlist *) * (i + 1));
 	if (!t_lst)
-		mini_liberate_all(data, ERROR_MALLOC, 1);
+		liberate_all(data, ERROR_MALLOC, 1);
 	j = -1;
 	lst = data->start;
 	while (++j < i)
@@ -65,6 +65,46 @@ void	export_print(t_data *data)
 	t_lst[j] = 0;
 	lst_sort_str_tab(t_lst, i);
 	print_export(t_lst);
+}
+
+void	export_this(t_data *data, char *cmd, char *name)
+{
+	char	*content;
+	char	**p_str;
+	char	*str;
+
+	content = env_get_search(data, name);
+	str = cmd;
+	while (str && *str && *str != '=')
+		++str;
+	if (!content || *str == '=')
+	{
+		p_str = env_w_search(data, name);
+		*p_str = ft_strdup(cmd);
+		if (!*p_str)
+		{
+			free(name);
+			liberate_all(data, ERROR_MALLOC, 1);
+		}
+	}
+}
+
+void	export_check(t_data *data, char *cmd)
+{
+	char	*name;
+	int		i;
+
+	i = 0;
+	while (cmd[i] && cmd[i] != '=')
+		++i;
+	name = ft_strndup(cmd, i);
+	if (!name)
+		liberate_all(data, ERROR_MALLOC, 1);
+	if (env_search(data, name))
+		export_this(data, cmd, name);
+	else
+		data->start = lst_add_front(data->start, cmd);
+	free(name);
 }
 
 void	mini_export(t_data *data, char **cmd)
@@ -79,12 +119,11 @@ void	mini_export(t_data *data, char **cmd)
 		while (*cmd)
 		{
 			if (check_nam_export(*cmd))
-				data->start = lst_add_front(data->start, *cmd);
+				export_check(data, *cmd);
 			else
 			{
 				data->error = 1;
-				printf("minishell: export: `%s': \
-					not a valid identifier\n", *cmd);
+				put_error(data, EXPORT_NO_VALID, 1);
 			}
 			++cmd;
 		}

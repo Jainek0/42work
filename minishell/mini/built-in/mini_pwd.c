@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:10:28 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 17:50:00 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:23:03 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,5 @@ void	mini_pwd(t_data *data, char **cmd)
 		data->error = 0;
 	}
 	else
-	{
-		ft_putstr_fd(ERROR_GETWCD, 2);
-		data->error = 1;
-	}
+		put_error(data, ERROR_GETWCD, 1);
 }

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:12 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 19:48:11 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:24:28 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	free2dstr(char **strs)
 
 void	free_data(t_data *data)
 {
+	close(data->std.out);
+	close(data->std.in);
 	if (data->start && data->start != NULL)
 		mini_free_envlist(data->start);
 	if (data->first && data->first != NULL)
@@ -76,11 +78,11 @@ void	free_data(t_data *data)
 	rl_clear_history();
 }
 
-void	mini_liberate_all(t_data *data, char *msg, int err)
+void	liberate_all(t_data *data, char *msg, int err)
 {
 	if (data)
 		free_data(data);
 	if (msg != NULL)
-		printf("%s\n", msg);
+		put_error(data, msg, err);
 	exit (err);
 }

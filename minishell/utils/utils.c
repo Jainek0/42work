@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:20:16 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/04 18:41:27 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**lst_to_tab(t_data *data)
 	node = data->start;
 	new = malloc(sizeof(char *) * (lstlen_chr(node, '=') + 1));
 	if (!new)
-		mini_liberate_all(data, MALLOC_FAILURE, 1);
+		liberate_all(data, MALLOC_FAILURE, 1);
 	while (node)
 	{
 		if (ft_strchr(node->str, '='))
@@ -55,7 +55,7 @@ char	**lst_to_tab(t_data *data)
 			if (!new[i])
 			{
 				free_tab(new);
-				mini_liberate_all(data, MALLOC_FAILURE, 1);
+				liberate_all(data, MALLOC_FAILURE, 1);
 			}
 			i++;
 		}

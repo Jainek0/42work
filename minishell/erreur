@@ -1,0 +1,16 @@
+mkdir xd
+cd xd
+mkdir xd
+cd xd
+rm -rf ../../xd
+cd ..
+
+-> 2 leaks & 2 fd ouverts
+
+touch out2
+chmod 0 out2
+>out1>out2>out3
+tu créé out3 quand meme alors que tu devrais t'arreter a out2 qui n'a pas les perms
+
+export =a
+pas d'erreur alors que tu devrais invalid identifier

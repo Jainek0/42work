@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
-/*   Updated: 2025/07/03 13:27:34 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	shell_expand(t_data *data, char *s, int i)
 	data->len = j - i - 1;
 	data->ex = malloc(sizeof(char) * (data->len + 1));
 	if (!data->ex)
-		mini_liberate_all(data, "malloc failure", 1);
+		liberate_all(data, "malloc failure", 1);
 	k = -1;
 	j = i;
 	while (++k < data->len)
