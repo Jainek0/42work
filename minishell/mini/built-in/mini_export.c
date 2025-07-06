@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 19:24:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 18:22:50 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 04:20:20 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_export(t_envlist **t_lst)
 		else
 			printf("declare -x %s\n", t_lst[j]->str);
 	}
-	free(t_lst);
+	ft_free((void **)&t_lst);
 }
 
 void	export_print(t_data *data)
@@ -80,12 +80,12 @@ void	export_this(t_data *data, char *cmd, char *name)
 	if (!content || *str == '=')
 	{
 		p_str = env_w_search(data, name);
-		*p_str = ft_strdup(cmd);
-		if (!*p_str)
+		if (!p_str)
 		{
-			free(name);
+			ft_free((void **)&name);
 			liberate_all(data, ERROR_MALLOC, 1);
 		}
+		*p_str = ft_strdup(cmd);
 	}
 }
 
@@ -95,16 +95,26 @@ void	export_check(t_data *data, char *cmd)
 	int		i;
 
 	i = 0;
-	while (cmd[i] && cmd[i] != '=')
+	while (cmd[i] && cmd[i] != '=' && cmd[i] != '+')
 		++i;
-	name = ft_strndup(cmd, i);
-	if (!name)
-		liberate_all(data, ERROR_MALLOC, 1);
-	if (env_search(data, name))
-		export_this(data, cmd, name);
-	else
-		data->start = lst_add_front(data->start, cmd);
-	free(name);
+	if (cmd[i] == '+' && cmd[i + 1] != '=')
+	{
+		put_error(data, EXPORT_NO_VALID, 1);
+		return ;
+	}
+	if (cmd[i] == '=' || !cmd[i])
+	{
+		name = ft_strndup(cmd, i);
+		if (!name)
+			liberate_all(data, ERROR_MALLOC, 1);
+		if (env_search(data, name))
+			export_this(data, cmd, name);
+		else
+			data->start = lst_add_front(data->start, cmd);
+		ft_free((void **)&name);
+		return ;
+	}
+	mini_export_add(data, cmd, i);
 }
 
 void	mini_export(t_data *data, char **cmd)
@@ -118,7 +128,7 @@ void	mini_export(t_data *data, char **cmd)
 	{
 		while (*cmd)
 		{
-			if (check_nam_export(*cmd))
+			if (check_nam_export(*cmd) && **cmd != '+' && **cmd != '=')
 				export_check(data, *cmd);
 			else
 			{

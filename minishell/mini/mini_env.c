@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:04:32 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 03:58:40 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	replace_old(t_data *data, char *cmd)
 	if (!node)
 	{
 		lst_add_back(data->start, old);
-		free(old);
+		ft_free((void **)&old);
 	}
 	else if (node->next)
 	{
 		env_unset(data, "_");
 		lst_add_back(data->start, old);
-		free(old);
+		ft_free((void **)&old);
 	}
 	else
 	{

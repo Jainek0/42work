@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 09:19:57 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/03 18:20:55 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 01:13:35 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_print_env(char *str)
 
 int	check_nam_export(char *str)
 {
-	while (*str && *str != '=')
+	while (*str && *str != '=' && *str != '+')
 	{
 		if (!(ft_isalnum(*str) || *str == '_'))
 			return (0);

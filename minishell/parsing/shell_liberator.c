@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_exit.c                                        :+:      :+:    :+:   */
+/*   shell_liberator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 17:41:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 22:24:58 by thcaquet         ###   ########.fr       */
+/*   Created: 2025/04/17 04:18:35 by ledupont          #+#    #+#             */
+/*   Updated: 2025/07/05 23:33:08 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-void	mini_exit(t_data *data, char **cmd)
+void	ft_free(void **ptr)
 {
-	int	err;
+	free(*ptr);
+	*ptr = NULL;
+}
 
-	err = 0;
-	printf("exit\n");
-	if (cmd[1])
-		data->error = (char) ft_atoll(cmd[1], &err);
-	if (err == 2)
-		put_error(data, EXIT_NUMERIC_ARG, 2);
-	else if (ft_tab2len(cmd) > 2)
-	{
-		put_error(data, EXIT_TOO_MANY_ARG, 1);
-		return ;
-	}
-	free_data(data);
-	close(data->std.in);
-	close(data->std.out);
-	exit((char) data->error);
+void	shell_invalid_line(t_data *data, char *msg)
+{
+	if (data->line && data->line != NULL)
+		ft_free((void **)&data->line);
+	if (msg)
+		put_error(data, msg, 2);
 }

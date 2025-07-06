@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:23:09 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 21:35:32 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*other_expand(t_data *data, char *old, int *i)
 		new = ft_clean_strjoin(new, &old[*i], 10);
 		++*i;
 	}
-	free(old);
+	ft_free((void **)&old);
 	return (new);
 }
 
@@ -46,7 +46,7 @@ char	*hook_expand(t_data *data, char *old, int *i)
 	new = ft_strndup(old, *i);
 	search = ft_strndup(&old[*i + 1], j);
 	tmp = env_get_search(data, search);
-	free(search);
+	ft_free((void **)&search);
 	k = ft_strlen(tmp);
 	new = ft_clean_strjoin(new, tmp, 10);
 	new = ft_clean_strjoin(new, &old[*i + j + 1], 10);
@@ -68,17 +68,17 @@ char	*nb_expand(t_data *data, char *old, int *i)
 		new = ft_clean_strjoin(new, "minishell", 10);
 		new = ft_clean_strjoin(new, &old[*i + 2], 10);
 		*i += 9;
-		free(old);
+		ft_free((void **)&old);
 		return (new);
 	}
 	search = ft_strndup(&old[*i + 1], 2);
 	tmp = env_get_search(data, search);
-	free(search);
+	ft_free((void **)&search);
 	k = ft_strlen(tmp);
 	new = ft_clean_strjoin(new, tmp, 10);
 	new = ft_clean_strjoin(new, old + *i + 2, 10);
 	*i += k;
-	free(old);
+	ft_free((void **)&old);
 	return (new);
 }
 
@@ -89,7 +89,7 @@ char	*mini_expand(t_data *data, char *str)
 
 	i = 0;
 	w_str = ft_strdup(str);
-	free(str);
+	ft_free((void **)&str);
 	while (w_str[i])
 	{
 		if (w_str[i] == '$' && ft_isdigit(w_str[i + 1]))

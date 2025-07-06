@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_clan_strjoin.c                                  :+:      :+:    :+:   */
+/*   ft_clean_strjoin.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 12:00:54 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/06/19 21:32:42 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ char	*free_this(char *s1, char *s2, int free_nu)
 {
 	if (s1 && (free_nu == 10 || free_nu == 11))
 		if (s1)
-			free(s1);
+			ft_free((void **)&s1);
 	if (s2 && (free_nu == 1 || free_nu == 11))
 		if (s2)
-			free(s2);
+			ft_free((void **)&s2);
 	return (0);
 }
 

@@ -6,16 +6,16 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 12:03:16 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/03 17:30:29 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/libft.h"
 
-void	gnl_free(char *buffer, char *nextl, char *scrap)
+void	gnl_ft_free((void **)&char *buffer, char *nextl, char *scrap)
 {
-	free(buffer);
-	free(nextl);
+	ft_free((void **)&buffer);
+	ft_free((void **)&nextl);
 	scrap[0] = 0;
 }
 
@@ -32,7 +32,7 @@ char	*get_read(int fd, char *scrap, char *buffer)
 		j = read(fd, buffer, BUFFER_SIZE);
 		if (j == -1)
 		{
-			gnl_free(buffer, nextl, scrap);
+			gnl_ft_free((void **)&buffer, nextl, scrap);
 			return (0);
 		}
 		buffer[j] = 0;
@@ -59,7 +59,7 @@ char	*get_scrap(int fd, char *scrap, char *buffer)
 		nextl = get_read(fd, scrap, buffer);
 	else
 	{
-		free(buffer);
+		ft_free((void **)&buffer);
 		i = 0;
 		nextl = malloc(j + 1);
 		if (!nextl)
@@ -90,7 +90,7 @@ char	*get_next_line(int fd)
 		nextl = get_scrap(fd, scrap[fd], buffer);
 	if (nextl && !nextl[0])
 	{
-		free(nextl);
+		ft_free((void **)&nextl);
 		return (0);
 	}
 	return (nextl);

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:29:43 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 04:31:38 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ char	**lst_token_to_tab(t_data *data)
 	int		i;
 
 	len = 0;
-	if (data->first)
-		len = lst_len(data->first);
-	cmd = malloc((len + 1)* sizeof(char **));
+	if (data->tok)
+		len = lst_len(data->tok);
+	cmd = malloc((len + 1) * sizeof(char **));
 	if (!cmd)
 		liberate_all(data, ERROR_MALLOC, 1);
 	i = 0;
-	node = data->first;
+	node = data->tok;
 	while (node)
 	{
 		cmd[i] = ft_strdup(node->str);
@@ -48,7 +48,7 @@ int	is_alnum_tab(char **tab)
 	while (tab[i])
 	{
 		j = 0;
-		while((tab[i][j]))
+		while ((tab[i][j]))
 		{
 			if (!ft_isalnum(tab[i][j]) && !(j == 0 && tab[i][j] == '-'))
 				return (1);

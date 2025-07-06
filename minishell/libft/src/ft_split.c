@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:33:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2024/10/22 15:00:04 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static char	**free_all(char **str)
 
 	k = 0;
 	while (str[k])
-		free(str[k++]);
-	free(str[k]);
-	free(str);
+		ft_free((void **)&str[k++]);
+	ft_free((void **)&str[k]);
+	ft_free((void **)&str);
 	return (NULL);
 }
 

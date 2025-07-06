@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 16:33:53 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/29 08:55:09 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static char	**free_all(char **tab)
 
 	k = 0;
 	while (tab[k])
-		free(tab[k++]);
-	free(tab[k]);
-	free(tab);
+		ft_free((void **)&tab[k++]);
+	ft_free((void **)&tab[k]);
+	ft_free((void **)&tab);
 	return (NULL);
 }
 

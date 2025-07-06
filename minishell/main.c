@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:43:03 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 16:43:32 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 06:05:06 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,43 @@ void	main_end(t_data *data)
 	free_data(data);
 }
 
-void	main_start(t_data *data, char **envp)
+void	shell_error_token(t_data *data)
 {
-	*data = set_data();
-	set_envs(data, envp);
-	sig_set();
+	if (data->pipe == AMBIGUOUS)
+		put_error(data, AMBIGUOUS_ERROR, 2);
+	else if (data->pipe == -1)
+		put_error(data, UNEXPECTED"`newline'\n", 2);
+	else if (data->pipe == -PIPE)
+		put_error(data, UNEXPECTED"`|'\n", 2);
+	else if (data->pipe == -REDINFILE)
+		put_error(data, UNEXPECTED"`<'\n", 2);
+	else if (data->pipe == -REDHEREDOC)
+		put_error(data, UNEXPECTED"`<<'\n", 2);
+	else if (data->pipe == -REDOUTFILE)
+		put_error(data, UNEXPECTED"`>'\n", 2);
+	else if (data->pipe == -REDAPPEND)
+		put_error(data, UNEXPECTED"`>>'\n", 2);
+}
+
+void	main_hook(t_data *data)
+{
+	mini_history(data->line);
+	shell_line_set(data);
+	shell_error_token(data);
+	if (data->tok && data->tok != NULL)
+	{
+		if (data->pipe == 0)
+		{
+			shell_red_parse(data);
+			shell_fonction_parse(data);
+		}
+		else if (data->pipe > 0)
+		{
+			mini_pipe(data);
+			data->tab_pid_fork = 0;
+		}
+	}
+	data->tok = mini_free_toklist(&data->tok);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -45,7 +77,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd(ERROR_ARG_MINISHELL, 2);
 		return (0);
 	}
-	main_start(&data, envp);
+	data = set_data();
+	set_envs(&data, envp);
+	sig_set();
 	while (1)
 	{
 		sig_reset(&data);
@@ -55,27 +89,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
-		mini_history(data.line);
-		shell_line_set(&data);
-		if (data.first && data.first != NULL)
-		{
-			if (data.pipe == 0)
-			{
-				shell_red_parse(&data);
-				shell_fonction_parse(&data);
-			}
-			else if (data.pipe == -1)
-				printf("minishell: syntax error near unexpected token 'newline' error: %d\n", data.error);
-			else if (data.pipe < -1)
-				printf("minishell: syntax error near unexpected token '%d' error: %d\n", data.pipe, data.error);
-			else
-			{
-				mini_pipe(&data);
-				free(data.tab_pid_fork);
-				data.tab_pid_fork = 0;
-			}
-		}
-		data.first = mini_free_toklist(data.first);
+		main_hook(&data);
 	}
 	main_end(&data);
 	return (0);

@@ -2,20 +2,22 @@ NAME		= minishell
 
 SRC			= 	main.c	\
 				\
-				parsing/minishell_parsing_is_checker.c	\
-				parsing/minishell_token_expand.c		\
-				parsing/minishell_manage_line.c			\
-				parsing/minishell_split_line.c			\
-				parsing/minishell_cleanline.c			\
-				parsing/minishell_expanding.c			\
-				parsing/minishell_liberator.c			\
-				parsing/minishell_tokenizer.c			\
-				parsing/minishell_parsing.c				\
-				parsing/minishell_expand.c				\
-				parsing/minishell_getenv.c				\
+				parsing/shell_parsing_is_checker.c	\
+				parsing/shell_token_expand.c		\
+				parsing/shell_manage_line.c			\
+				parsing/shell_split_space.c			\
+				parsing/shell_split_line.c			\
+				parsing/shell_cleanline.c			\
+				parsing/shell_expanding.c			\
+				parsing/shell_liberator.c			\
+				parsing/shell_tokenizer.c			\
+				parsing/shell_parsing.c				\
+				parsing/shell_envlen.c				\
+				parsing/shell_expand.c				\
 				\
-				mini/built-in/mini_expand.c		\
+				mini/built-in/mini_export_add.c	\
 				mini/built-in/mini_export.c		\
+				mini/built-in/mini_expand.c		\
 				mini/built-in/mini_unset.c		\
 				mini/built-in/mini_echo.c		\
 				mini/built-in/mini_exit.c		\

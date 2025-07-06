@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 19:26:36 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/29 08:56:26 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ char	*ft_n_realloc(char *str, int len)
 	while (i <= len)
 		new[i++] = 0;
 	if (str)
-		free(str);
+		ft_free((void **)&str);
 	return (new);
 }

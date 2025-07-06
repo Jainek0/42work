@@ -6,16 +6,16 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:44:06 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 18:19:33 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 04:02:51 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void cd_home(t_data *data)
+void	cd_home(t_data *data)
 {
-	char *home;
-	char **w_oldpwd;
+	char	*home;
+	char	**w_oldpwd;
 
 	home = env_get_search(data, "HOME");
 	last_cmd(data, "cd", NULL);
@@ -39,10 +39,10 @@ void cd_home(t_data *data)
 	}
 }
 
-void cd_oldpwd(t_data *data)
+void	cd_oldpwd(t_data *data)
 {
-	char *oldpwd[2];
-	char **w_oldpwd;
+	char	*oldpwd[2];
+	char	**w_oldpwd;
 
 	oldpwd[0] = env_get_search(data, "OLDPWD");
 	last_cmd(data, "", NULL);
@@ -67,22 +67,22 @@ void cd_oldpwd(t_data *data)
 	}
 }
 
-void cd_parente(t_data *data)
+void	cd_parente(t_data *data)
 {
-	int i;
-	char *path;
-	char **w_oldpwd;
+	int		i;
+	char	**w_oldpwd;
 
-	path = getcwd(0, 0);
-	if (!path)
+	ft_free((void **)&data->tmp);
+	data->tmp = getcwd(0, 0);
+	if (!data->tmp)
 	{
 		put_error(data, OPEN_GETWCD, 1);
 		return ;
 	}
-	i = ft_strlen(path);
-	while (i > 1 && i >= 0 && path[i] != '/')
+	i = ft_strlen(data->tmp);
+	while (i > 1 && i >= 0 && data->tmp[i] != '/')
 		i--;
-	path = ft_n_realloc(path, i);
+	data->tmp = ft_n_realloc(data->tmp, i);
 	w_oldpwd = env_w_search(data, "OLDPWD");
 	if (w_oldpwd)
 	{
@@ -91,13 +91,12 @@ void cd_parente(t_data *data)
 			liberate_all(data, MALLOC_FAILURE, 1);
 	}
 	last_cmd(data, "..", NULL);
-	chdir(path);
-	free(path);
+	chdir(data->tmp);
 }
 
-void cd_chdir(t_data *data, char *path)
+void	cd_chdir(t_data *data, char *path)
 {
-	char **w_oldpwd;
+	char	**w_oldpwd;
 
 	last_cmd(data, path, NULL);
 	if (access(path, F_OK) == -1)
@@ -117,7 +116,7 @@ void cd_chdir(t_data *data, char *path)
 	}
 }
 
-void mini_cd(t_data *data, char **cmd)
+void	mini_cd(t_data *data, char **cmd)
 {
 	data->error = 0;
 	if (ft_tab2len(cmd) > 2)

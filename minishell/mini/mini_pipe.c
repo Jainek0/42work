@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:15:10 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 06:57:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ t_token	*pipe_cut(t_data *data)
 	t_token	*tmp;
 	t_token	*new;
 
-	new = data->first;
+	new = data->tok;
 	while (new && new->type != 2)
 	{
 		tmp = new->next;
-		free(new->str);
-		free(new);
+		ft_free((void **)&new->str);
+		ft_free((void **)&new);
 		new = tmp;
 	}
 	if (new)
 	{
 		tmp = new->next;
-		free(new->str);
-		free(new);
+		ft_free((void **)&new->str);
+		ft_free((void **)&new);
 	}
 	else
 		tmp = 0;
@@ -44,10 +44,10 @@ void	pipe_clear_last(t_data *data)
 	t_token	*old;
 	t_token	*first;
 
-	new = data->first;
-	first = data->first;
+	new = data->tok;
+	first = data->tok;
 	old = 0;
-	if (!data->first || data->first->type == PIPE)
+	if (!data->tok || data->tok->type == PIPE)
 		first = 0;
 	while (new && new->type != PIPE)
 	{
@@ -57,31 +57,32 @@ void	pipe_clear_last(t_data *data)
 	while (new)
 	{
 		tmp = new->next;
-		free(new->str);
-		free(new);
+		ft_free((void **)&new->str);
+		ft_free((void **)&new);
 		new = tmp;
 	}
 	if (old)
 		old->next = 0;
-	data->first = first;
+	data->tok = first;
 }
 
-void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
+void	pipe_child(t_data *data, int i)
 {
 	int	j;
 
 	j = 0;
+	ft_free((void **)&data->tab_pid_fork);
 	if (i != 0)
 	{
-		dup2(p_old[0], STDIN_FILENO);
-		close(p_old[0]);
-		close(p_old[1]);
+		dup2(data->p_old[0], STDIN_FILENO);
+		close(data->p_old[0]);
+		close(data->p_old[1]);
 	}
 	if (i != data->pipe)
 	{
-		dup2(p_new[1], STDOUT_FILENO);
-		close(p_new[0]);
-		close(p_new[1]);
+		dup2(data->p_new[1], STDOUT_FILENO);
+		close(data->p_new[0]);
+		close(data->p_new[1]);
 	}
 	pipe_clear_last(data);
 	shell_fonction_parse(data);
@@ -91,27 +92,25 @@ void	pipe_child(t_data *data, int p_old[2], int p_new[2], int i)
 	exit(data->error);
 }
 
-void	pipe_parent(t_data *data, int p_old[2], int p_new[2], int i)
+void	pipe_parent(t_data *data, int i)
 {
 	if (i != 0)
 	{
-		close(p_old[0]);
-		close(p_old[1]);
+		close(data->p_old[0]);
+		close(data->p_old[1]);
 	}
 	if (i < data->pipe)
 	{
-		p_old[0] = p_new[0];
-		p_old[1] = p_new[1];
+		data->p_old[0] = data->p_new[0];
+		data->p_old[1] = data->p_new[1];
 	}
 }
 
 void	mini_pipe(t_data *data)
 {
-	int	p_old[2];
-	int	p_new[2];
 	int	i;
 
-	data->tab_pid_fork = malloc(sizeof(pid_t *) *(data->pipe + 1));
+	data->tab_pid_fork = malloc(sizeof(pid_t) *(data->pipe + 1));
 	if (!data->tab_pid_fork)
 		liberate_all(data, MALLOC_FAILURE, 1);
 	i = 0;
@@ -119,16 +118,20 @@ void	mini_pipe(t_data *data)
 	{
 		shell_red_parse(data);
 		if (i < data->pipe)
-			pipe(p_new);
+			if (pipe(data->p_new))
+				liberate_all(data, ERROR_PIPE, 1);
 		data->tab_pid_fork[i] = set_fork(data);
 		if (data->pid_fork == 0)
-			pipe_child(data, p_old, p_new, i);
+			pipe_child(data, i);
 		else
-			pipe_parent(data, p_old, p_new, i);
+			pipe_parent(data, i);
 		++i;
-		data->first = pipe_cut(data);
+		data->tok = pipe_cut(data);
+		dup2(data->std.in, STDIN_FILENO);
+		dup2(data->std.out, STDOUT_FILENO);
 	}
 	i = -1;
 	while (++i <= data->pipe)
 		waitpid(data->tab_pid_fork[i], NULL, 0);
+	ft_free((void **)&data->tab_pid_fork);
 }

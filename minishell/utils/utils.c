@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:20:16 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/07/05 16:36:59 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/06 05:14:12 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@ size_t	lstlen_chr(t_envlist *node, char c)
 	return (i);
 }
 
-void	free_tab(char **tab)
+void	free_tab(char ***p_tab)
 {
-	int	i;
+	char	**tab;
+	int		i;
 
 	i = 0;
+	tab = *p_tab;
 	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+		ft_free((void **)&tab[i++]);
+	ft_free((void **)&tab);
+	*p_tab = 0;
 }
 
 char	**lst_to_tab(t_data *data)
@@ -54,7 +57,7 @@ char	**lst_to_tab(t_data *data)
 			new[i] = ft_strdup(node->str);
 			if (!new[i])
 			{
-				free_tab(new);
+				free_tab((char ***)&new);
 				liberate_all(data, MALLOC_FAILURE, 1);
 			}
 			i++;

@@ -6,7 +6,7 @@
 /*   By: thcaquet <thcaquet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 12:03:42 by thcaquet          #+#    #+#             */
-/*   Updated: 2025/04/03 17:30:28 by thcaquet         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:16:42 by thcaquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*gnl_strjoin(char *s1, char *s2)
 	while (ln++ < l2)
 		new[l1 + ln - 1] = s2[ln - 1];
 	new[l1 + l2] = 0;
-	free(s1);
+	ft_free((void **)&s1);
 	return (new);
 }
 
@@ -88,7 +88,7 @@ void	gnl_rewrite(char *old, char *scrap, int j)
 	else
 		scrap[0] = 0;
 	if (scrap != old)
-		free(old);
+		ft_free((void **)&old);
 }
 
 char	*gnl_dup(char *str)
